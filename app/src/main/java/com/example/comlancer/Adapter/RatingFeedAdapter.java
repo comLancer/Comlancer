@@ -19,11 +19,11 @@ public class RatingFeedAdapter extends BaseAdapter {
 
 
     private final Context mContext;
-    private ArrayList<RatingFeedback> mItems;
+    private ArrayList<RatingFeedback> mItems = new ArrayList<>();
 
-    public RatingFeedAdapter(Context context, ArrayList<RatingFeedback> feedbackList) {
+    public RatingFeedAdapter(Context context) {
         mContext = context;
-        mItems = feedbackList;
+
     }
 
     public void updateFeedbackArrayList(ArrayList<RatingFeedback> feedbackList) {
@@ -54,7 +54,7 @@ public class RatingFeedAdapter extends BaseAdapter {
             itemView = LayoutInflater.from(mContext).inflate(R.layout.list_item_feedback, viewGroup, false);
         }
 
-        TextView tvName = itemView.findViewById(R.id.ed_name);
+        TextView tvName = itemView.findViewById(R.id.tv_name);
         //TextView tvFeedback = itemView.findViewById(R.id.tv_feedback);
         RatingBar ratingBar = itemView.findViewById(R.id.ratingBar);
 

@@ -33,24 +33,38 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="23dp"
         android:layout_marginEnd="32dp"
         android:ems="10"
         android:gravity="start|top"
+        android:hint="Your Feedback"
         android:inputType="textMultiLine"
         android:maxHeight="132dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ratingbar" />
+        app:layout_constraintTop_toBottomOf="@+id/et_name_feedback" />
 
     <RatingBar
         android:id="@+id/ratingbar"
         style="@style/Widget.AppCompat.RatingBar.Indicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="128dp"
         android:isIndicator="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/et_name_feedback"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:hint="Enter your name"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="@+id/et_feedback"
+        app:layout_constraintStart_toStartOf="@+id/et_feedback"
+        app:layout_constraintTop_toBottomOf="@+id/ratingbar" />
 </androidx.constraintlayout.widget.ConstraintLayout>

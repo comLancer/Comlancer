@@ -79,12 +79,13 @@ public class AddFeedbackDialogFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View itemView = inflater.inflate(R.layout.fragment_add_feedback, container, false);
+        View perantView = inflater.inflate(R.layout.fragment_add_feedback, container, false);
 
-        final RatingBar ratingBar = itemView.findViewById(R.id.ratingbar);
-        final EditText etFeedback = itemView.findViewById(R.id.et_feedback);
-        final Button btnSubmit = itemView.findViewById(R.id.btn_submit);
-        final Button btnCancel = itemView.findViewById(R.id.btn_cancel);
+        final RatingBar ratingBar = perantView.findViewById(R.id.ratingbar);
+        final EditText etFeedback = perantView.findViewById(R.id.et_feedback);
+        final Button btnSubmit = perantView.findViewById(R.id.btn_submit);
+        final Button btnCancel = perantView.findViewById(R.id.btn_cancel);
+        final  EditText etnameFeedBack=perantView.findViewById(R.id.et_name_feedback);
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,6 +115,7 @@ public class AddFeedbackDialogFragment extends DialogFragment {
                         RatingFeedback rf = new RatingFeedback();
                         rf.setRating(ratingBar.getRating());
                         rf.setFeedback(etFeedback.getText().toString());
+                        rf.setFullName(etnameFeedBack.getText().toString());
 
                         rf.setFullName(value.getName());
                         rf.setFirebaseId(value.getFirebaseUserId());
@@ -153,7 +155,7 @@ public class AddFeedbackDialogFragment extends DialogFragment {
         });
 
 
-        return itemView;
+        return perantView;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
