@@ -54,7 +54,7 @@ public class RatingFeedAdapter extends BaseAdapter {
             itemView = LayoutInflater.from(mContext).inflate(R.layout.list_item_feedback, viewGroup, false);
         }
 
-        TextView tvName = itemView.findViewById(R.id.tv_name);
+        TextView tvName = itemView.findViewById(R.id.ed_name);
         //TextView tvFeedback = itemView.findViewById(R.id.tv_feedback);
         RatingBar ratingBar = itemView.findViewById(R.id.ratingBar);
 
