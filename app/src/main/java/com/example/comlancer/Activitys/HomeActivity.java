@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.comlancer.DialogFragments.AddFeedbackDialogFragment;
+import com.example.comlancer.Fragments.CompaniesFragment;
 import com.example.comlancer.Fragments.FreelancerFragment;
 import com.example.comlancer.Fragments.LoginFragment;
 import com.example.comlancer.Fragments.ProfileFragment;
@@ -38,32 +39,38 @@ public class HomeActivity extends AppCompatActivity implements ProfileFragment.p
                 changeFragmentTo(new ProfileFragment(), ProfileFragment.class.getSimpleName());
             }
         });
+
+
+        BottomNavigationView bottomNav = findViewById(R.id.bottomNavigation);
+        bottomNav.setOnNavigationItemSelectedListener((BottomNavigationView.OnNavigationItemSelectedListener) navListener);
+
     }
 
-/*        BottomNavigationView bottomNav=findViewById(R.id.bottomNavigation);
-        bottomNav.setOnNavigationItemReselectedListener((BottomNavigationView.OnNavigationItemReselectedListener) navListener);
 
-
-    }
-
-/// this is for  BottomNavigationView
-    private BottomNavigationView.OnNavigationItemSelectedListener navListener=
+    /// this is for  BottomNavigationView
+    private final BottomNavigationView.OnNavigationItemSelectedListener navListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                    Fragment selectedFragment=null;
-                    switch (menuItem.getItemId()){
-                    case R.id.item_nav_tab:
-                            selectedFragment=new FreelancerFragment();
+                    Fragment selectedFragment = null;
+                    switch (menuItem.getItemId()) {
+                        case R.id.item_nav_home:
+                            selectedFragment = new FreelancerFragment();
                             break;
-                        case R.id.item_nav_tab:
-                            selectedFragment=new FreelancerFragment();
+                        case R.id.item_nav_search:
+                            selectedFragment = new FreelancerFragment();
                             break;
-
-
+                        case R.id.item_nav_profile:
+                            selectedFragment = new ProfileFragment();
+                            break;
                     }
-                }
-            };*/
+
+
+    getSupportFragmentManager().beginTransaction().replace(R.id.frame_container ,selectedFragment).commit();
+                    return  true;
+                    }
+
+            };
 
 
     private void changeFragmentTo(Fragment fragmentToDisplay, String tag) {

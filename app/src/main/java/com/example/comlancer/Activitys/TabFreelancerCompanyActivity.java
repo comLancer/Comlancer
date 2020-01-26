@@ -12,7 +12,7 @@ import com.example.comlancer.Models.User;
 import com.example.comlancer.R;
 import com.google.android.material.tabs.TabLayout;
 
-public class TabFreelancerCompanyActivity extends AppCompatActivity implements CompaniesFragment.ComapaniesListenerInerface {
+public class TabFreelancerCompanyActivity extends AppCompatActivity implements CompaniesFragment.ComapaniesListenerInerface, FreelancerFragment.FreelancerListenerInerface {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
