@@ -1,5 +1,6 @@
-package com.example.comlancer.Fragments;
+package com.example.comlancer.DialogFragments;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -16,9 +17,11 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
-import com.bumptech.glide.Glide;
+import com.example.comlancer.Models.ComlancerImages;
+import com.example.comlancer.Models.ImagesContainer;
 import com.example.comlancer.Models.MyConstants;
 import com.example.comlancer.Models.User;
 import com.example.comlancer.R;
@@ -26,121 +29,86 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.ArrayList;
 
+import static com.example.comlancer.Fragments.EditProfileFragment.KEY_STORAGE;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link EditProfileInterface} interface
+ * {@link AddImgeToRecycleViewlInterface} interface
  * to handle interaction events.
- * Use the {@link EditProfileFragment#newInstance} factory method to
+ * Use the {@link AddImageDialogFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class EditProfileFragment extends Fragment {
-
-    public static final String KEY_STORAGE = "images/";
-    public static final String KEY_USER = "images/";
-    private static final int PICK_IMAGE = 100;
-    private static final String TAG = "add-post";
-    ImageButton ibAddImg;
-    EditText etImgUrl;
-    Uri mImageUri;
-    DatabaseReference mRef;
-    EditText etName;
-    EditText etEmail;
-    EditText etTag;
-    EditText etInfo;
-    private User mUser;
-
-
-
-    // TODO: Rename parameter arguments, choose names that match
+public class AddImageDialogFragment extends DialogFragment {
+    // TODO:  Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
+    private static final String KEY_USER = "user";     //it must be freelancer that add image
+    private static final int PICK_IMAGE = 100;
+    private static final String TAG = "profile image";
+    User mUser;
+    DatabaseReference mRef;
+    Uri mImageUri;
+    ImageButton imgbtnAddImgeFromGalary;
+    Button btnAddImgToRecycleView;
+    EditText etTitle;
+    private AddImgeToRecycleViewlInterface mListener;
     private String mParam1;
-    private String mParam2;
-    private Context mContext;
-    private EditProfileInterface mListener;
-    private StorageReference mStorageRef;
     private FirebaseAuth mAuth;
+    private StorageReference mStorageRef;
+    private Context mContext;
 
 
-    public EditProfileFragment() {
+    public AddImageDialogFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     * <p>
-     * 2.
-     *
-     * @return A new instance of fragment EditProfileFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static EditProfileFragment newInstance(User user) {
-        EditProfileFragment fragment = new EditProfileFragment();
+    public static AddImageDialogFragment newInstance(User user) {
+        AddImageDialogFragment fragment = new AddImageDialogFragment();
         Bundle args = new Bundle();
         args.putSerializable(KEY_USER, user);
         fragment.setArguments(args);
         return fragment;
     }
 
-    public static EditProfileFragment newInstance(int index) {
-        EditProfileFragment f = new EditProfileFragment();
-        Bundle args = new Bundle();
-        args.putInt("index", index);
-        f.setArguments(args);
-        return f;
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        Dialog dialog = getDialog();
+        if (dialog != null) {
+            int width = ViewGroup.LayoutParams.MATCH_PARENT;
+            int height = ViewGroup.LayoutParams.MATCH_PARENT;
+            dialog.getWindow().setLayout(width, height);
+        }
+
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-
             mUser = (User) getArguments().getSerializable(KEY_USER);
-
         }
     }
-
-
-
-
-
-/*
-    public void EditProfileFirebase() {
-
-
-        etName.setText(mUser.getName());
-        etTag.setText(mUser.getTag());
-        etInfo.setText(mUser.getInfo());
-        etEmail.setText(mUser.getEmail());
-    }*/
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        final View parentView = inflater.inflate(R.layout.fragment_edit_profile, container, false);
-
+        View parentView = inflater.inflate(R.layout.fragment_to_add_imag_dialog, container, false);
 
         mStorageRef = FirebaseStorage.getInstance().getReference();
-
         mAuth = FirebaseAuth.getInstance();
         final FirebaseUser currentUser = mAuth.getCurrentUser();
 
@@ -148,90 +116,41 @@ public class EditProfileFragment extends Fragment {
         mRef = database.getReference(MyConstants.FB_KEY_CF).child(currentUser.getUid());
 
 
-        ibAddImg = parentView.findViewById(R.id.ib_img_view);
-        etName = parentView.findViewById(R.id.et_name);
-        etTag = parentView.findViewById(R.id.et_tag);
-        etEmail = parentView.findViewById(R.id.et_email);
-
-        etInfo = parentView.findViewById(R.id.et_title);
-
-
-        etImgUrl = parentView.findViewById(R.id.et_profile_img);
-
-
-        writeData();
-
-
-        Button btnEditProfile = parentView.findViewById(R.id.btn_add);
-        btnEditProfile.setText("edit");
         Button btnCancel = parentView.findViewById(R.id.btn_cancel);
-
-        //EditProfileFirebase();
-        ibAddImg.setOnClickListener(new View.OnClickListener() {
+        etTitle = parentView.findViewById(R.id.et_title);
+        btnAddImgToRecycleView = parentView.findViewById(R.id.btn_add_img_to_recycle_view);
+        imgbtnAddImgeFromGalary = parentView.findViewById(R.id.imgbtn_add_imge_recycle_view);
+        imgbtnAddImgeFromGalary.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-
+            public void onClick(View v) {
                 changeImage();
+            }
+        });
+
+
+        btnAddImgToRecycleView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                ComlancerImages comlancerImages = new ComlancerImages();
+                //this is to add child in database
+                comlancerImages.setFirebaseUserId(currentUser.getUid());
+                comlancerImages.setTitle(etTitle.getText().toString());
+
+                uploadToStorage(comlancerImages);
             }
         });
 
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
                 onCancelPressed();
             }
         });
 
 
-        btnEditProfile.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-
-                mRef.addValueEventListener(new ValueEventListener() {
-
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        User user = mUser;
-                        //this is to add child in database
-                        user.setFirebaseUserId(currentUser.getUid());
-
-                        user.setName(etName.getText().toString());
-                        user.setImageUrl(etImgUrl.getText().toString());
-                        user.setInfo(etInfo.getText().toString());
-                        user.setEmail(etEmail.getText().toString());
-                        user.setTag(etTag.getText().toString());
-
-
-                        uploadToStorage(user);
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError error) {
-                        // Failed to read value
-                        Log.w(TAG, "Failed to read value.", error.toException());
-                    }
-                });
-            }
-        });
-
-
         return parentView;
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onCancelPressed() {
-        if (mListener != null) {
-            mListener.onCancelClick();
-        }
-    }
-
-
-    public void onEditPressed(User user) {
-        if (mListener != null) {
-            mListener.onClickEditProfileFormEditFragment(user);
-        }
     }
 
 
@@ -241,6 +160,7 @@ public class EditProfileFragment extends Fragment {
         intentObj.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intentObj, "Select Picture"), PICK_IMAGE);
     }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -256,7 +176,7 @@ public class EditProfileFragment extends Fragment {
 
                 InputStream imageStream = mContext.getContentResolver().openInputStream(mImageUri);
                 Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
-                ibAddImg.setImageBitmap(selectedImage);
+                imgbtnAddImgeFromGalary.setImageBitmap(selectedImage);
 
 
             } catch (FileNotFoundException e) {
@@ -266,9 +186,9 @@ public class EditProfileFragment extends Fragment {
     }
 
 
-    void uploadToStorage(final User u) {
+    void uploadToStorage(final ComlancerImages comlancerImages) {
 
-        final StorageReference imgRef = mStorageRef.child(KEY_STORAGE + u.getEmail());
+        final StorageReference imgRef = mStorageRef.child(KEY_STORAGE + comlancerImages.getTitle());
 
         if (mImageUri != null) {
             imgRef.putFile(mImageUri)
@@ -282,8 +202,9 @@ public class EditProfileFragment extends Fragment {
                                 @Override
                                 public void onSuccess(Uri imageFirebaseUrl) {
 
-                                    u.setImageUrl(imageFirebaseUrl.toString());
-                                    onEditPressed(u);
+                                    comlancerImages.setImageUrl(imageFirebaseUrl.toString());
+
+                                    addNewImageToUser(comlancerImages);
 
                                     Log.d("imageUrl", imageFirebaseUrl.toString());
                                 }
@@ -300,31 +221,56 @@ public class EditProfileFragment extends Fragment {
                     });
 
         } else {
-            onEditPressed(u);
+            comlancerImages.setImageUrl("https://firebasestorage.googleapis.com/v0/b/comlancer-562c5.appspot.com/o/images%2Fsafa95alshuaili%40gmail.com?alt=media&token=5d0cce31-847f-4b57-b858-ef5108df7d65");
+            addNewImageToUser(comlancerImages);
         }
     }
 
+    private void addNewImageToUser(ComlancerImages comlancerImages) {
 
-    private void writeData() {
+        if (mUser.getImagesContainer() != null) {
+            mUser.getImagesContainer().getImageList().add(comlancerImages);
+        } else {
 
-        etName.setText(mUser.getName());
-        etEmail.setText(mUser.getEmail());
-        etTag.setText(mUser.getTag());
-        etInfo.setText(mUser.getInfo());
-        Glide.with(mContext).load(mUser.getImageUrl()).placeholder(R.drawable.ic_add_a_photo).into(ibAddImg);
+            ImagesContainer ic = new ImagesContainer();
+            ArrayList<ComlancerImages> images = new ArrayList<>();
 
+            images.add(comlancerImages);
+            ic.setImageList(images);
+
+            mUser.setImagesContainer(ic);
+
+        }
+
+
+        onButtonPressed(mUser);
+    }
+
+
+    // TODO: Rename method, update argument and hook method into UI event
+    public void onButtonPressed(User user) {
+        if (mListener != null) {
+            mListener.onClickAddImage(user);
+//           dismiss();
+        }
+    }
+
+    public void onCancelPressed() {
+        if (mListener != null) {
+            mListener.onCancelClick();
+        }
     }
 
 
     @Override
     public void onAttach(Context context) {
-        super.onAttach(context);
         mContext = context;
-        if (context instanceof EditProfileInterface) {
-            mListener = (EditProfileInterface) context;
+        super.onAttach(context);
+        if (context instanceof AddImgeToRecycleViewlInterface) {
+            mListener = (AddImgeToRecycleViewlInterface) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement profileInterface");
+                    + " must implement AddImgeToRecycleViewlInterface");
         }
     }
 
@@ -345,9 +291,9 @@ public class EditProfileFragment extends Fragment {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface EditProfileInterface {
+    public interface AddImgeToRecycleViewlInterface {
         // TODO: Update argument type and name
-        void onClickEditProfileFormEditFragment(User user);
+        void onClickAddImage(User user);
 
         void onCancelClick();
     }

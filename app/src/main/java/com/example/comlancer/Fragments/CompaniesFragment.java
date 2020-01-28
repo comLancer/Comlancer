@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -105,9 +104,9 @@ public class CompaniesFragment extends Fragment implements ListView.OnItemClickL
 
 /*
     private void displayAddCompanyDialog() {
-        mDialog = new AddCompanyDialogFragment(mContext);
+        mDialogAddImage = new AddCompanyDialogFragment(mContext);
 
-        mDialog.show(getChildFragmentManager(), AddCompanyDialogFragment.class.getSimpleName());
+        mDialogAddImage.show(getChildFragmentManager(), AddCompanyDialogFragment.class.getSimpleName());
     }
 */
 
@@ -120,7 +119,7 @@ public class CompaniesFragment extends Fragment implements ListView.OnItemClickL
 
 /*
   public void dismissDialog() {
-        mDialog.dismiss();
+        mDialogAddImage.dismiss();
     }*/
 public void onAttach(Context context) {
     super.onAttach(context);

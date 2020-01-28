@@ -2,36 +2,35 @@ package com.example.comlancer.Fragments;
 
 import android.content.Context;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.text.method.ScrollingMovementMethod;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
+import com.example.comlancer.Adapter.MyRecyclerViewAdapter;
 import com.example.comlancer.Adapter.RatingFeedAdapter;
 import com.example.comlancer.DialogFragments.AddFeedbackDialogFragment;
+import com.example.comlancer.DialogFragments.AddImageDialogFragment;
+import com.example.comlancer.Models.ComlancerImages;
 import com.example.comlancer.Models.MyConstants;
 import com.example.comlancer.Models.User;
 import com.example.comlancer.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
-import static androidx.constraintlayout.widget.Constraints.TAG;
+import com.mikhaellopez.circularimageview.CircularImageView;
 
 
 /**
@@ -40,14 +39,15 @@ import static androidx.constraintlayout.widget.Constraints.TAG;
  * Use the {@link ProfileFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ProfileFragment extends Fragment {
+public class ProfileFragment extends Fragment implements MyRecyclerViewAdapter.OnItemClickListener, AddImageDialogFragment.AddImgeToRecycleViewlInterface {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String KEY_Users = "user";
     private profileInterface mListener;
     User mUser;
+
     RatingBar mRatingBar;
-    RatingFeedAdapter mAdapter;
+    private static final int NUMBER_OF_COLUMNS = 3;
     private Context mContext;
     FirebaseAuth mAuth;
     DatabaseReference myRef;
@@ -55,8 +55,15 @@ public class ProfileFragment extends Fragment {
     TextView tvName;
     TextView tvTag;
     ListView lvFeedback;
-    ImageView ivProfile;
-    private AddFeedbackDialogFragment mDialog;
+    RatingFeedAdapter mAdapterRating;
+    CircularImageView ivProfile;
+    AddImageDialogFragment mDialogAddImage;
+    ImageButton imgbtnEditProfile;
+    ComlancerImages comlancerImages;
+    ImageButton imgbtnAddImg;
+    private AddFeedbackDialogFragment mDialogFeedback;
+    private RecyclerView rvGrid;
+    private MyRecyclerViewAdapter mAdapterRecycle;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -77,12 +84,12 @@ public class ProfileFragment extends Fragment {
         return fragment;
     }
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mUser = (User) getArguments().getSerializable(KEY_Users);
+
 
         }
     }
@@ -93,25 +100,31 @@ public class ProfileFragment extends Fragment {
         // Inflate the layout for this fragment
         View parentView = inflater.inflate(R.layout.fragment_profile, container, false);
 
+        //this is for RecycleView
+
+
         mAuth = FirebaseAuth.getInstance().getInstance();
-
         Button btnChat = parentView.findViewById(R.id.btn_chat);
-
         ivProfile = parentView.findViewById(R.id.iv_img_profile);
-
         mRatingBar = parentView.findViewById(R.id.ratingBar);
-
         tvName = parentView.findViewById(R.id.tv_name);
-
         tvInfo = parentView.findViewById(R.id.tv_info);
+        tvInfo.setMovementMethod(new ScrollingMovementMethod());
+        rvGrid = parentView.findViewById(R.id.recycler_view);
+        mAdapterRecycle = new MyRecyclerViewAdapter(mContext);
+        setupRecyclerViewGrid();
 
         tvTag = parentView.findViewById(R.id.tv_tag);
-
+        imgbtnEditProfile = parentView.findViewById(R.id.imgbtn_edit_profile);
+        imgbtnAddImg = parentView.findViewById(R.id.imgbtn_addImage);
         lvFeedback = parentView.findViewById(R.id.lv_list_feedback);
-
-        mAdapter = new RatingFeedAdapter(mContext);
+        mAdapterRating = new RatingFeedAdapter(mContext);
         readUsersFromFirebase();
-        lvFeedback.setAdapter(mAdapter);
+        lvFeedback.setAdapter(mAdapterRating);
+
+        if (mUser.getImagesContainer() != null) {
+            mAdapterRecycle.updateList(mUser.getImagesContainer().getImageList());
+        }
 
         FloatingActionButton fabAdd = parentView.findViewById(R.id.fab_add);
 
@@ -119,8 +132,16 @@ public class ProfileFragment extends Fragment {
         fabAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mDialog = AddFeedbackDialogFragment.newInstance(mUser);
-                mDialog.show(getChildFragmentManager(), AddFeedbackDialogFragment.class.getSimpleName());
+                mDialogFeedback = AddFeedbackDialogFragment.newInstance(mUser);
+                mDialogFeedback.show(getChildFragmentManager(), AddFeedbackDialogFragment.class.getSimpleName());
+            }
+        });
+
+
+        imgbtnEditProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onEditPressed(mUser);
             }
         });
 
@@ -133,48 +154,67 @@ public class ProfileFragment extends Fragment {
     }
 
 
+    //this is for RecycleView....
+    private void setupRecyclerViewGrid() {
+        rvGrid.setLayoutManager(new GridLayoutManager(mContext, NUMBER_OF_COLUMNS));
+        rvGrid.setItemAnimator(new DefaultItemAnimator());
+        rvGrid.setAdapter(mAdapterRecycle);
+    }
+
+
+    @Override
+    public void onClickAddImage(User user) {
+        String myFirebaseRef;
+
+        if (user.getRole().equalsIgnoreCase("User")) {
+            //   myFirebaseRef = FB_KEY_USERS;
+            myFirebaseRef = (MyConstants.FB_KEY_USERS);
+        } else {
+            //  myFirebaseRef =FB_KEY_CF;
+            myFirebaseRef = (MyConstants.FB_KEY_CF);
+        }
+
+        // Write a message to the database
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference(myFirebaseRef);
+
+        myRef.child(user.getFirebaseUserId()).setValue(user);
+
+
+    }
+
+    @Override
+    public void onCancelClick() {
+
+    }
+
+
     public void readUsersFromFirebase() {
 
+        tvName.setText(mUser.getName());
+        tvInfo.setText(mUser.getInfo());
+        tvTag.setText(mUser.getTag());
 
-        final FirebaseUser currentUser = mAuth.getCurrentUser();
-        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        Glide.with(mContext).load(mUser.getImageUrl()).placeholder(R.mipmap.ic_launcher_round).into(ivProfile);
 
 
-        myRef = database.getReference(MyConstants.FB_KEY_CF).child(currentUser.getUid());
+        mRatingBar.setRating(mUser.getAverageRating());
+        mUser = mUser;
 
-        myRef.addValueEventListener(new ValueEventListener() {
+
+        if (mUser.getMyRatingFeedback() != null) {
+            mAdapterRating.updateFeedbackArrayList(mUser.getMyRatingFeedback().getFeedbackList());
+        }
+
+
+        imgbtnAddImg.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
+            public void onClick(View v) {
 
-                User value = dataSnapshot.getValue(User.class);
-
-                tvInfo.setMovementMethod(new ScrollingMovementMethod());
-
-                tvName.setText(value.getName());
-                tvInfo.setText(value.getInfo());
-                tvTag.setText(value.getTag());
-
-                Glide.with(mContext).load(value.getLogoUrl()).placeholder(R.mipmap.ic_launcher_round).into(ivProfile);
+                mDialogAddImage = AddImageDialogFragment.newInstance(mUser);
+                mDialogAddImage.show(getChildFragmentManager(), AddImageDialogFragment.class.getSimpleName());
 
 
-                mRatingBar.setRating(value.getAverageRating());
-                mUser = value;
-
-
-                if (value.getMyRatingFeedback() != null && value.getMyRatingFeedback().getFeedbackList().size() >0) {
-                    mAdapter.updateFeedbackArrayList(value.getMyRatingFeedback().getFeedbackList());
-                }
-
-
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Log.w(TAG, "Failed to read value.", error.toException());
             }
         });
 
@@ -184,7 +224,7 @@ public class ProfileFragment extends Fragment {
 
     public void dismissDialog() {
 
-        mDialog.dismiss();
+        mDialogFeedback.dismiss();
     }
 
 
@@ -194,7 +234,7 @@ public class ProfileFragment extends Fragment {
 
 
     // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(User user) {
+    public void onEditPressed(User user) {
         if (mListener != null) {
             mListener.onClick(user);
         }
@@ -217,6 +257,41 @@ public class ProfileFragment extends Fragment {
         super.onDetach();
         //mListener = null;
     }
+
+
+    //this function will take info from edit profile .. we write User becouse it the data from it ,was update insid user
+    public void updateUI(User user) {
+
+        tvName.setText(user.getName());
+        tvInfo.setText(user.getInfo());
+        tvTag.setText(user.getTag());
+        //upload the image from the database and display in the xml
+        Glide.with(mContext).load(user.getImageUrl()).placeholder(R.mipmap.ic_launcher_round).into(ivProfile);
+
+
+        mRatingBar.setRating(user.getAverageRating());
+        mUser = user;
+
+
+        if (user.getMyRatingFeedback() != null) {
+            mAdapterRating.updateFeedbackArrayList(user.getMyRatingFeedback().getFeedbackList());
+        }
+
+
+        //todo : code not opining profile after closing dialog
+        if (user.getImagesContainer() != null) {
+            mAdapterRecycle.updateList(user.getImagesContainer().getImageList());
+        }
+
+
+    }
+
+
+    @Override
+    public void onItemClicked(ComlancerImages user) {
+
+    }
+
 
     /**
      * This interface must be implemented by activities that contain this

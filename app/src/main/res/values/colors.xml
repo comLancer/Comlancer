@@ -7,6 +7,7 @@
     <color name="colorTitle">#024635</color>
     <color name="colorInfo">#9C27B0</color>
     <color name="colorMenu">#F0D98F</color>
+    <color name="colorBorder">#F0D98F</color>
 
     colorPrimary
 </resources>

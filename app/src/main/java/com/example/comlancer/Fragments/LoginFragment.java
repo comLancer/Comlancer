@@ -2,10 +2,6 @@ package com.example.comlancer.Fragments;
 
 import android.content.Context;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,9 +11,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+
 import com.example.comlancer.DialogFragments.ForgotPasswordDialogFragment;
-import com.example.comlancer.R;
 import com.example.comlancer.Models.User;
+import com.example.comlancer.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -53,7 +52,7 @@ public class LoginFragment extends Fragment {
 
 
         View perantView = inflater.inflate(R.layout.fragment_login, container, false);
-        final EditText etEmail =perantView.findViewById(R.id.et_email);
+        final EditText etEmail = perantView.findViewById(R.id.et_title);
         final    EditText etpass =perantView.findViewById(R.id.et_pass);
         final TextView tvForgetPassword = perantView.findViewById(R.id.tv_forget_pass);
         Button btnLogin=perantView.findViewById(R.id.btn_login);

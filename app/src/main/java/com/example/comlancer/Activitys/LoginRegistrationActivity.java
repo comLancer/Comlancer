@@ -1,26 +1,22 @@
 package com.example.comlancer.Activitys;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.viewpager.widget.ViewPager;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.example.comlancer.Adapter.TabsPagerAdapter;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.example.comlancer.Fragments.LoginFragment;
-import com.example.comlancer.Models.MyConstants;
-import com.example.comlancer.R;
 import com.example.comlancer.Fragments.RegistrationFragment;
+import com.example.comlancer.Models.MyConstants;
 import com.example.comlancer.Models.User;
+import com.example.comlancer.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -45,13 +41,22 @@ public class LoginRegistrationActivity extends AppCompatActivity implements Logi
 
     }
 
-    private void changeFragmentTo(Fragment fragmentToDisplay, String tag) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+    private void changeFragmentTo(Fragment fragmentToLoad, String fragmentTag) {
+        if (getSupportFragmentManager().findFragmentByTag(fragmentTag) == null) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                    .replace(R.id.fl_container, fragmentToLoad, fragmentTag)
+                    .addToBackStack(fragmentTag)
+                    .commit();
 
-        fragmentTransaction.replace(R.id.fl_container, fragmentToDisplay, tag);
-        fragmentTransaction.addToBackStack(tag);
-        fragmentTransaction.commit();
+        } else {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                    .replace(R.id.fl_container, fragmentToLoad, fragmentTag)
+                    .commit();
+        }
     }
 
     private void registerFormFierbaseCreate(final User user) {

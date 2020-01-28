@@ -5,40 +5,18 @@ import java.io.Serializable;
 public class User implements Serializable {
     private String firebaseUserId;
     private String email;
-    private String Name;
+    private String name;
     private String password;
     private String info;
     private String imageUrl;
     private String role;
-private String Tag;
-
-
-
+    private String tag;
     private float ratingSum;
     private int numberOfFeedbacks;
     private float averageRating;
     private RatingFeedBackContainer myRatingFeedback;
     private String logoUrl;
-
-
-
-
-
-    public String getPassword() {
-        return password;
-    }
-
-    public String getInfo() {
-        return info;
-    }
-
-    public void setInfo(String info) {
-        this.info = info;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
+    private ImagesContainer imagesContainer;
 
     public String getFirebaseUserId() {
         return firebaseUserId;
@@ -57,17 +35,32 @@ private String Tag;
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
-    public void setName(String fullName) {
-        this.Name = fullName;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getInfo() {
+        return info;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
     }
 
     public String getImageUrl() {
         return imageUrl;
     }
-
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
@@ -79,6 +72,14 @@ private String Tag;
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
     }
 
     public float getRatingSum() {
@@ -121,14 +122,11 @@ private String Tag;
         this.logoUrl = logoUrl;
     }
 
-    public String getTag() {
-        return Tag;
+    public ImagesContainer getImagesContainer() {
+        return imagesContainer;
     }
 
-    public void setTag(String tag) {
-        Tag = tag;
+    public void setImagesContainer(ImagesContainer imagesContainer) {
+        this.imagesContainer = imagesContainer;
     }
-
-
-
 }

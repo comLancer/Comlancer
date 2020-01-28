@@ -2,9 +2,6 @@ package com.example.comlancer.Fragments;
 
 import android.content.Context;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,10 +9,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Toast;
 
-import com.example.comlancer.R;
+import androidx.fragment.app.Fragment;
+
 import com.example.comlancer.Models.User;
+import com.example.comlancer.R;
 
 
 /**
@@ -42,7 +40,7 @@ public class RegistrationFragment extends Fragment {
         // Inflate the layout for this fragment
         final View parentView = inflater.inflate(R.layout.fragment_registration, container, false);
         final EditText etFullName = parentView.findViewById(R.id.et_full_name);
-        final EditText etEmail = parentView.findViewById(R.id.et_email);
+        final EditText etEmail = parentView.findViewById(R.id.et_title);
         final EditText etPass = parentView.findViewById(R.id.et_pass);
         final EditText etRePass = parentView.findViewById(R.id.et_rePass);
 
@@ -60,12 +58,14 @@ public class RegistrationFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String role = getRole(parentView);
+
                 User user = new User();
                 user.setName(etFullName.getText().toString());
                 user.setEmail(etEmail.getText().toString());
                 user.setPassword(etPass.getText().toString());
                 user.setPassword(etRePass.getText().toString());
                 user.setRole(role);
+
 
                 onRegisterPressed(user);
 
