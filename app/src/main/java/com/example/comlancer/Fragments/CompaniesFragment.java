@@ -29,7 +29,7 @@ import java.util.ArrayList;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CompaniesFragment extends Fragment implements ListView.OnItemClickListener  {
+public class CompaniesFragment extends Fragment implements ListView.OnItemClickListener {
 
     private ComapaniesListenerInerface mListener;
 
@@ -44,13 +44,16 @@ public class CompaniesFragment extends Fragment implements ListView.OnItemClickL
     }
 
 
+    public void setListener(ComapaniesListenerInerface listener) {
+        mListener = (TabFreelancerCompanyFragment) listener;
+
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View parentView = inflater.inflate(R.layout.test, container, false);
-
-
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
 
@@ -70,7 +73,6 @@ public class CompaniesFragment extends Fragment implements ListView.OnItemClickL
     }
 
 
-
     public void readCompaniesFromFirebase() {
         // Read from the database
         mRef.addValueEventListener(new ValueEventListener() {
@@ -80,7 +82,7 @@ public class CompaniesFragment extends Fragment implements ListView.OnItemClickL
                 items.clear();
                 for (DataSnapshot d : dataSnapshot.getChildren()) {
                     User value = d.getValue(User.class);
-                    if (value.getRole().equalsIgnoreCase("Comapanies")){
+                    if (value.getRole().equalsIgnoreCase("Comapanies")) {
                         items.add(value);
                     }
 
@@ -88,7 +90,6 @@ public class CompaniesFragment extends Fragment implements ListView.OnItemClickL
                 }
 
                 mAdapter.updateFreelancerArrayList(items);
-
 
 
             }
@@ -117,23 +118,15 @@ public class CompaniesFragment extends Fragment implements ListView.OnItemClickL
         }
     }
 
-/*
-  public void dismissDialog() {
-        mDialogAddImage.dismiss();
-    }*/
-public void onAttach(Context context) {
-    super.onAttach(context);
-    mContext = context;
-
-    if (context instanceof ComapaniesListenerInerface) {
-        mListener = (ComapaniesListenerInerface) context;
-    } else {
-        throw new RuntimeException(context.toString()
-                + " must implement CompaniesInterface");
-
+    /*
+      public void dismissFeedbackDialog() {
+            mDialogAddImage.dismiss();
+        }*/
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = context;
 
     }
-}
 
 
     @Override
@@ -144,7 +137,7 @@ public void onAttach(Context context) {
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-       Toast.makeText(mContext, "Hello", Toast.LENGTH_SHORT).show();
+        Toast.makeText(mContext, "Hello", Toast.LENGTH_SHORT).show();
         onItemPressed((User) adapterView.getAdapter().getItem(i));
     }
 

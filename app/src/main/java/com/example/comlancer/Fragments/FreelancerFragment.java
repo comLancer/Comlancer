@@ -44,6 +44,10 @@ public class FreelancerFragment extends Fragment implements ListView.OnItemClick
     }
 
 
+    public void setListener(FreelancerListenerInerface listener) {
+        mListener = listener;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -118,22 +122,13 @@ public class FreelancerFragment extends Fragment implements ListView.OnItemClick
     }
 
     /*
-      public void dismissDialog() {
+      public void dismissFeedbackDialog() {
             mDialogAddImage.dismiss();
         }*/
     public void onAttach(Context context) {
         super.onAttach(context);
         mContext = context;
 
-
-        if (context instanceof FreelancerListenerInerface) {
-            mListener = (FreelancerListenerInerface) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement FreelancerListenerInerface");
-
-
-        }
     }
 
 

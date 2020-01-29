@@ -3,7 +3,6 @@ package com.example.comlancer.DialogFragments;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,18 +12,10 @@ import android.widget.RatingBar;
 
 import androidx.fragment.app.DialogFragment;
 
-import com.example.comlancer.Models.MyConstants;
 import com.example.comlancer.Models.RatingFeedBackContainer;
 import com.example.comlancer.Models.RatingFeedback;
 import com.example.comlancer.Models.User;
 import com.example.comlancer.R;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -100,25 +91,14 @@ public class AddFeedbackDialogFragment extends DialogFragment {
             public void onClick(View view) {
 
 
-                final FirebaseAuth mAuth = FirebaseAuth.getInstance();
-                final FirebaseUser currentUser = mAuth.getCurrentUser();
-
-                final FirebaseDatabase database = FirebaseDatabase.getInstance();
-                DatabaseReference myRef = database.getReference(MyConstants.FB_KEY_USERS).child(currentUser.getUid());
-
-                myRef.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-
-                        User value = dataSnapshot.getValue(User.class);
 
                         RatingFeedback rf = new RatingFeedback();
                         rf.setRating(ratingBar.getRating());
                         rf.setFeedback(etFeedback.getText().toString());
                         rf.setFullName(etnameFeedBack.getText().toString());
 
-                        rf.setFullName(value.getName());
-                        rf.setFirebaseId(value.getFirebaseUserId());
+                rf.setFullName(mUser.getName());
+                rf.setFirebaseId(mUser.getFirebaseUserId());
                         if (mUser.getMyRatingFeedback() != null) {
                             mUser.getMyRatingFeedback().getFeedbackList().add(rf);
                         }
@@ -143,14 +123,7 @@ public class AddFeedbackDialogFragment extends DialogFragment {
 
                         onSubmitPressed(mUser);
 
-                    }
 
-                    @Override
-                    public void onCancelled(DatabaseError error) {
-                        // Failed to read value
-                        Log.w(TAG, "Failed to read value.", error.toException());
-                    }
-                });
             }
         });
 

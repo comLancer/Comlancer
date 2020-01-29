@@ -9,24 +9,31 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.example.comlancer.Fragments.CompaniesFragment;
 import com.example.comlancer.Fragments.FreelancerFragment;
+import com.example.comlancer.Fragments.TabFreelancerCompanyFragment;
 
 public class TabsPagerAdapter extends FragmentPagerAdapter {
 
     private final Context mContext;
+    private final TabFreelancerCompanyFragment mFragment;
     private CharSequence[] tabTitles = {"Companies", "Freelancers"};
 
-    public TabsPagerAdapter(Context context, FragmentManager fm) {
+    public TabsPagerAdapter(TabFreelancerCompanyFragment fragment, Context context, FragmentManager fm) {
         super(fm);
         mContext = context;
+        mFragment = fragment;
     }
 
     @Override
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return new CompaniesFragment();
+                CompaniesFragment companiesFragment = new CompaniesFragment();
+                companiesFragment.setListener(mFragment);
+                return companiesFragment;
             case 1:
-                return new FreelancerFragment();
+                FreelancerFragment freelancerFragment = new FreelancerFragment();
+                freelancerFragment.setListener(mFragment);
+                return freelancerFragment;
 
 
             default:

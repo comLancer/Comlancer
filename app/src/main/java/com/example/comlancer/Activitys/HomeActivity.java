@@ -20,6 +20,7 @@ import com.example.comlancer.DialogFragments.AddImageDialogFragment;
 import com.example.comlancer.Fragments.ChatFragment;
 import com.example.comlancer.Fragments.EditProfileFragment;
 import com.example.comlancer.Fragments.ProfileFragment;
+import com.example.comlancer.Fragments.TabFreelancerCompanyFragment;
 import com.example.comlancer.Models.ComlancerImages;
 import com.example.comlancer.Models.MyConstants;
 import com.example.comlancer.Models.User;
@@ -50,8 +51,8 @@ public class HomeActivity extends AppCompatActivity implements ProfileFragment.p
 
                             break;
                         case R.id.item_nav_search:
-                            Intent goTabIntent = new Intent(HomeActivity.this, TabFreelancerCompanyActivity.class);
-                            startActivity(goTabIntent);
+
+                            changeFragmentTo(new TabFreelancerCompanyFragment(), TabFreelancerCompanyFragment.class.getSimpleName());
 
                             break;
                         case R.id.item_nav_profile:
@@ -142,6 +143,8 @@ public class HomeActivity extends AppCompatActivity implements ProfileFragment.p
 
     //that function allow the user to write the feedback and then upload it into the database in firebase...it also will display it in freelancer/company profile
     private void addFeedbackToProfileUser(User user) {
+
+        //TODO this should be added to comlancer
         // Write a message to the database
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference(MyConstants.FB_KEY_CF)
@@ -152,7 +155,7 @@ public class HomeActivity extends AppCompatActivity implements ProfileFragment.p
 
         ProfileFragment fragment = (ProfileFragment) getSupportFragmentManager().findFragmentByTag(ProfileFragment.class.getSimpleName());
         if (fragment != null && fragment.isVisible()) {
-            fragment.dismissDialog();
+            fragment.dismissFeedbackDialog();
             fragment.readUsersFromFirebase();
             fragment.updateRating(user.getAverageRating());
         }
@@ -240,11 +243,11 @@ public class HomeActivity extends AppCompatActivity implements ProfileFragment.p
 
         myRef.child(user.getFirebaseUserId()).setValue(user);
 
-        onBackPressed();
 
         ProfileFragment fragment = (ProfileFragment) getSupportFragmentManager().findFragmentByTag(ProfileFragment.class.getSimpleName());
 
         if (fragment != null && fragment.isVisible()) {
+            fragment.dismissAddImageDialog();
             fragment.updateUI(user);
         }
     }

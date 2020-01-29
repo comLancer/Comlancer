@@ -222,7 +222,13 @@ public class ProfileFragment extends Fragment implements MyRecyclerViewAdapter.O
     }
 
 
-    public void dismissDialog() {
+    public void dismissAddImageDialog() {
+
+        mDialogAddImage.dismiss();
+    }
+
+
+    public void dismissFeedbackDialog() {
 
         mDialogFeedback.dismiss();
     }

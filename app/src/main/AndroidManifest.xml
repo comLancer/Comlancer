@@ -24,7 +24,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".Activitys.SplashActivity"></activity>
-        <activity android:name=".Activitys.TabFreelancerCompanyActivity">
+        <activity android:name=".Fragments.TabFreelancerCompanyFragment">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
