@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
@@ -117,7 +116,7 @@ public class FreelancerFragment extends Fragment implements ListView.OnItemClick
 
     public void onItemPressed(User user) {
         if (mListener != null) {
-            mListener.onItemClick(user);
+            mListener.onItemClickFreelancer(user);
         }
     }
 
@@ -138,10 +137,11 @@ public class FreelancerFragment extends Fragment implements ListView.OnItemClick
         mListener = null;
     }
 
+
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        Toast.makeText(mContext, "Hello", Toast.LENGTH_SHORT).show();
         onItemPressed((User) adapterView.getAdapter().getItem(i));
+
     }
 
     /**
@@ -156,7 +156,8 @@ public class FreelancerFragment extends Fragment implements ListView.OnItemClick
      */
     public interface FreelancerListenerInerface {
         // TODO: Update argument type and name
-        void onItemClick(User user);
+        void onItemClickFreelancer(User user);
+
     }
 }
 

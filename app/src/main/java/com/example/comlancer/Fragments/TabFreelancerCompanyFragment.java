@@ -18,11 +18,19 @@ public class TabFreelancerCompanyFragment extends Fragment implements CompaniesF
 
 
     private Context mContext;
+    private TabPageListener mListener;
+
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         mContext = context;
+        if (context instanceof TabPageListener) {
+            mListener = (TabPageListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement TabPageListener");
+        }
     }
 
     @Override
@@ -45,9 +53,30 @@ public class TabFreelancerCompanyFragment extends Fragment implements CompaniesF
 
 
     @Override
-    public void onItemClick(User user) {
+    public void onItemClickCompany(User user) {
+
+        onItemPressed(user);
 
     }
 
 
+    @Override
+    public void onItemClickFreelancer(User user) {
+        onItemPressed(user);
+    }
+
+
+    void onItemPressed(User user) {
+
+        if (mListener != null) {
+            mListener.onItemClickTap(user);
+        }
+
+    }
+
+    public interface TabPageListener {
+        // TODO: Update argument type and name
+        void onItemClickTap(User user);
+
+    }
 }

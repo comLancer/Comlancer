@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
@@ -114,7 +113,7 @@ public class CompaniesFragment extends Fragment implements ListView.OnItemClickL
 
     public void onItemPressed(User user) {
         if (mListener != null) {
-            mListener.onItemClick(user);
+            mListener.onItemClickCompany(user);
         }
     }
 
@@ -137,8 +136,10 @@ public class CompaniesFragment extends Fragment implements ListView.OnItemClickL
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        Toast.makeText(mContext, "Hello", Toast.LENGTH_SHORT).show();
+
+
         onItemPressed((User) adapterView.getAdapter().getItem(i));
+
     }
 
     /**
@@ -153,7 +154,8 @@ public class CompaniesFragment extends Fragment implements ListView.OnItemClickL
      */
     public interface ComapaniesListenerInerface {
         // TODO: Update argument type and name
-        void onItemClick(User user);
+        void onItemClickCompany(User user);
+
     }
 }
 

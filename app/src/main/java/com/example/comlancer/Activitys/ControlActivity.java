@@ -15,8 +15,11 @@ import com.example.comlancer.Adapter.MyRecyclerViewAdapter;
 import com.example.comlancer.DialogFragments.AddFeedbackDialogFragment;
 import com.example.comlancer.DialogFragments.AddImageDialogFragment;
 import com.example.comlancer.Fragments.ChatFragment;
+import com.example.comlancer.Fragments.CompaniesFragment;
 import com.example.comlancer.Fragments.EditProfileFragment;
+import com.example.comlancer.Fragments.FreelancerFragment;
 import com.example.comlancer.Fragments.HomeFragment;
+import com.example.comlancer.Fragments.OthersProfileFragment;
 import com.example.comlancer.Fragments.PersonalProfileFragment;
 import com.example.comlancer.Fragments.TabFreelancerCompanyFragment;
 import com.example.comlancer.Models.ComlancerImages;
@@ -35,7 +38,8 @@ import com.google.firebase.database.ValueEventListener;
 import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class ControlActivity extends AppCompatActivity implements PersonalProfileFragment.profileInterface, AddFeedbackDialogFragment.OnAddFeedback,
-        ChatFragment.OnFragmentInteractionListener, EditProfileFragment.EditProfileInterface, MyRecyclerViewAdapter.OnItemClickListener, AddImageDialogFragment.AddImgeToRecycleViewlInterface, HomeFragment.OnFragmentInteractionListener {
+        ChatFragment.OnFragmentInteractionListener, EditProfileFragment.EditProfileInterface, MyRecyclerViewAdapter.OnItemClickListener, AddImageDialogFragment.AddImgeToRecycleViewlInterface,
+        HomeFragment.OnFragmentInteractionListener, CompaniesFragment.ComapaniesListenerInerface, FreelancerFragment.FreelancerListenerInerface, TabFreelancerCompanyFragment.TabPageListener {
     /// this is for  BottomNavigationView
     private final BottomNavigationView.OnNavigationItemSelectedListener navListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -75,7 +79,6 @@ public class ControlActivity extends AppCompatActivity implements PersonalProfil
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_control);
-
 
 
         BottomNavigationView bottomNav = findViewById(R.id.bottomNavigation);
@@ -176,7 +179,7 @@ public class ControlActivity extends AppCompatActivity implements PersonalProfil
     }
 
 
-    // this function will take the data from the edit tezxt and save in the darabase then it will return to profile fragmnet
+    // this function will take the data from the edit tezxt and save in the database then it will return to profile fragment
     private void editUserInfo(User user) {
 
         String myFirebaseRef;
@@ -241,6 +244,10 @@ public class ControlActivity extends AppCompatActivity implements PersonalProfil
         }
     }
 
+    private void openLoginFragment() {
+        changeFragmentTo(new OthersProfileFragment(), OthersProfileFragment.class.getSimpleName());
+    }
+
     @Override
     public void onCancelClick() {
 
@@ -250,6 +257,25 @@ public class ControlActivity extends AppCompatActivity implements PersonalProfil
 
     @Override
     public void onItemClicked(ComlancerImages u) {
+
+    }
+
+
+    @Override
+    public void onItemClickTap(User user) {
+
+        changeFragmentTo(OthersProfileFragment.newInstance(user), OthersProfileFragment.class.getSimpleName());
+
+    }
+
+    @Override
+    public void onItemClickCompany(User user) {
+
+    }
+
+    @Override
+    public void onItemClickFreelancer(User user) {
+        openLoginFragment();
 
     }
 }

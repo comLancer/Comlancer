@@ -94,7 +94,7 @@ public class OthersProfileFragment extends Fragment implements MyRecyclerViewAda
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View parentView = inflater.inflate(R.layout.fragment_personal_profile, container, false);
+        View parentView = inflater.inflate(R.layout.fragment_others_profile, container, false);
 
         //this is for RecycleView
 
@@ -244,12 +244,7 @@ public class OthersProfileFragment extends Fragment implements MyRecyclerViewAda
     public void onAttach(Context context) {
         mContext = context;
         super.onAttach(context);
-        if (context instanceof profileInterface) {
-            mListener = (profileInterface) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement profileInterface");
-        }
+
     }
 
     @Override

@@ -76,7 +76,10 @@ public class AddFeedbackDialogFragment extends DialogFragment {
         final EditText etFeedback = perantView.findViewById(R.id.et_feedback);
         final Button btnSubmit = perantView.findViewById(R.id.btn_submit);
         final Button btnCancel = perantView.findViewById(R.id.btn_cancel);
-        final  EditText etnameFeedBack=perantView.findViewById(R.id.et_name_feedback);
+        final EditText etnameFeedBack = perantView.findViewById(R.id.et_name_feedback);
+
+        getCurrentUserName(etnameFeedBack);
+
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,37 +94,35 @@ public class AddFeedbackDialogFragment extends DialogFragment {
             public void onClick(View view) {
 
 
-
-                        RatingFeedback rf = new RatingFeedback();
-                        rf.setRating(ratingBar.getRating());
-                        rf.setFeedback(etFeedback.getText().toString());
-                        rf.setFullName(etnameFeedBack.getText().toString());
+                RatingFeedback rf = new RatingFeedback();
+                rf.setRating(ratingBar.getRating());
+                rf.setFeedback(etFeedback.getText().toString());
+                rf.setFullName(etnameFeedBack.getText().toString());
 
                 rf.setFullName(mUser.getName());
                 rf.setFirebaseId(mUser.getFirebaseUserId());
-                        if (mUser.getMyRatingFeedback() != null) {
-                            mUser.getMyRatingFeedback().getFeedbackList().add(rf);
-                        }
-                        else {
-                            RatingFeedBackContainer rfc = new RatingFeedBackContainer();
-                            ArrayList<RatingFeedback> ratingFeedbackArrayList = new ArrayList<>();
-                            ratingFeedbackArrayList.add(rf);
-                            rfc.setFeedbackList(ratingFeedbackArrayList);
+                if (mUser.getMyRatingFeedback() != null) {
+                    mUser.getMyRatingFeedback().getFeedbackList().add(rf);
+                } else {
+                    RatingFeedBackContainer rfc = new RatingFeedBackContainer();
+                    ArrayList<RatingFeedback> ratingFeedbackArrayList = new ArrayList<>();
+                    ratingFeedbackArrayList.add(rf);
+                    rfc.setFeedbackList(ratingFeedbackArrayList);
 
-                            mUser.setMyRatingFeedback(rfc);
+                    mUser.setMyRatingFeedback(rfc);
 
-                        }
+                }
 
-                        //update averageRating
-                        int numberOfFeedbacks = mUser.getNumberOfFeedbacks() + 1;
-                        float sumOfFeedbacks = mUser.getRatingSum() + ratingBar.getRating();
-                        float averageRating = sumOfFeedbacks / numberOfFeedbacks;
+                //update averageRating
+                int numberOfFeedbacks = mUser.getNumberOfFeedbacks() + 1;
+                float sumOfFeedbacks = mUser.getRatingSum() + ratingBar.getRating();
+                float averageRating = sumOfFeedbacks / numberOfFeedbacks;
 
-                        mUser.setNumberOfFeedbacks(numberOfFeedbacks);
-                        mUser.setRatingSum(sumOfFeedbacks);
-                        mUser.setAverageRating(averageRating);
+                mUser.setNumberOfFeedbacks(numberOfFeedbacks);
+                mUser.setRatingSum(sumOfFeedbacks);
+                mUser.setAverageRating(averageRating);
 
-                        onSubmitPressed(mUser);
+                onSubmitPressed(mUser);
 
 
             }
@@ -129,6 +130,11 @@ public class AddFeedbackDialogFragment extends DialogFragment {
 
 
         return perantView;
+    }
+
+    private void getCurrentUserName(final EditText etnameFeedBack) {
+
+        //TODO : GET getName FromSharePref
     }
 
     // TODO: Rename method, update argument and hook method into UI event

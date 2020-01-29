@@ -62,7 +62,7 @@ public class UserAdapter extends BaseAdapter {
         tvName.setText(u.getName());
         ratingBar.setRating(u.getAverageRating());
 
-        Glide.with(mContext).load(u.getLogoUrl()).placeholder(R.mipmap.ic_launcher).into(ivImg);
+        Glide.with(mContext).load(u.getImageUrl()).placeholder(R.mipmap.ic_launcher).into(ivImg);
 
 
 
