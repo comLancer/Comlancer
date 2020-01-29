@@ -163,7 +163,7 @@ public class LoginRegistrationActivity extends AppCompatActivity implements Logi
 
     public void changTwoActivity() {
 
-        Intent myIntent = new Intent(this, HomeActivity.class);
+        Intent myIntent = new Intent(this, ControlActivity.class);
         startActivity(myIntent);
     }
 

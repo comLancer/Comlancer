@@ -145,7 +145,7 @@ public class AddImageDialogFragment extends DialogFragment {
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onCancelPressed();
+                dismiss();
             }
         });
 

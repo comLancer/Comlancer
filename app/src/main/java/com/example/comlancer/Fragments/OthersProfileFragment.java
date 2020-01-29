@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -21,34 +20,29 @@ import com.bumptech.glide.Glide;
 import com.example.comlancer.Adapter.MyRecyclerViewAdapter;
 import com.example.comlancer.Adapter.RatingFeedAdapter;
 import com.example.comlancer.DialogFragments.AddFeedbackDialogFragment;
-import com.example.comlancer.DialogFragments.AddImageDialogFragment;
 import com.example.comlancer.Models.ComlancerImages;
-import com.example.comlancer.Models.MyConstants;
 import com.example.comlancer.Models.User;
 import com.example.comlancer.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * Use the {@link ProfileFragment#newInstance} factory method to
+ * Use the {@link OthersProfileFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ProfileFragment extends Fragment implements MyRecyclerViewAdapter.OnItemClickListener, AddImageDialogFragment.AddImgeToRecycleViewlInterface {
+public class OthersProfileFragment extends Fragment implements MyRecyclerViewAdapter.OnItemClickListener, AddFeedbackDialogFragment.OnAddFeedback {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String KEY_Users = "user";
-    private profileInterface mListener;
+    private static final int NUMBER_OF_COLUMNS = 3;
     User mUser;
 
     RatingBar mRatingBar;
-    private static final int NUMBER_OF_COLUMNS = 3;
-    private Context mContext;
     FirebaseAuth mAuth;
     DatabaseReference myRef;
     TextView tvInfo;
@@ -57,26 +51,28 @@ public class ProfileFragment extends Fragment implements MyRecyclerViewAdapter.O
     ListView lvFeedback;
     RatingFeedAdapter mAdapterRating;
     CircularImageView ivProfile;
-    AddImageDialogFragment mDialogAddImage;
-    ImageButton imgbtnEditProfile;
+    //    AddImageDialogFragment mDialogAddImage;
+//    ImageButton imgbtnEditProfile;
     ComlancerImages comlancerImages;
-    ImageButton imgbtnAddImg;
+    private profileInterface mListener;
+    private Context mContext;
+    //    ImageButton imgbtnAddImg;
     private AddFeedbackDialogFragment mDialogFeedback;
     private RecyclerView rvGrid;
     private MyRecyclerViewAdapter mAdapterRecycle;
 
-    public ProfileFragment() {
+    public OthersProfileFragment() {
         // Required empty public constructor
     }
 
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
-     * tance of fragment ProfileFragment.
+     * tance of fragment PersonalProfileFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ProfileFragment newInstance(User user) {
-        ProfileFragment fragment = new ProfileFragment();
+    public static OthersProfileFragment newInstance(User user) {
+        OthersProfileFragment fragment = new OthersProfileFragment();
         Bundle args = new Bundle();
         args.putSerializable(KEY_Users, user);
 
@@ -98,7 +94,7 @@ public class ProfileFragment extends Fragment implements MyRecyclerViewAdapter.O
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View parentView = inflater.inflate(R.layout.fragment_profile, container, false);
+        View parentView = inflater.inflate(R.layout.fragment_personal_profile, container, false);
 
         //this is for RecycleView
 
@@ -115,8 +111,8 @@ public class ProfileFragment extends Fragment implements MyRecyclerViewAdapter.O
         setupRecyclerViewGrid();
 
         tvTag = parentView.findViewById(R.id.tv_tag);
-        imgbtnEditProfile = parentView.findViewById(R.id.imgbtn_edit_profile);
-        imgbtnAddImg = parentView.findViewById(R.id.imgbtn_addImage);
+        //   imgbtnEditProfile = parentView.findViewById(R.id.imgbtn_edit_profile);
+        // imgbtnAddImg = parentView.findViewById(R.id.imgbtn_addImage);
         lvFeedback = parentView.findViewById(R.id.lv_list_feedback);
         mAdapterRating = new RatingFeedAdapter(mContext);
         readUsersFromFirebase();
@@ -138,13 +134,13 @@ public class ProfileFragment extends Fragment implements MyRecyclerViewAdapter.O
         });
 
 
-        imgbtnEditProfile.setOnClickListener(new View.OnClickListener() {
+     /*   imgbtnEditProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onEditPressed(mUser);
             }
         });
-
+*/
 
         readUsersFromFirebase();
 
@@ -161,9 +157,8 @@ public class ProfileFragment extends Fragment implements MyRecyclerViewAdapter.O
         rvGrid.setAdapter(mAdapterRecycle);
     }
 
-
-    @Override
-    public void onClickAddImage(User user) {
+    //  @Override
+   /* public void onClickAddImage(User user) {
         String myFirebaseRef;
 
         if (user.getRole().equalsIgnoreCase("User")) {
@@ -181,12 +176,17 @@ public class ProfileFragment extends Fragment implements MyRecyclerViewAdapter.O
         myRef.child(user.getFirebaseUserId()).setValue(user);
 
 
-    }
+    }*/
 
-    @Override
+    /*@Override
     public void onCancelClick() {
 
-    }
+    }*/
+/*
+    public void dismissAddImageDialog() {
+
+        mDialogAddImage.dismiss();
+    }*/
 
 
     public void readUsersFromFirebase() {
@@ -207,7 +207,7 @@ public class ProfileFragment extends Fragment implements MyRecyclerViewAdapter.O
         }
 
 
-        imgbtnAddImg.setOnClickListener(new View.OnClickListener() {
+    /*    imgbtnAddImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -218,13 +218,7 @@ public class ProfileFragment extends Fragment implements MyRecyclerViewAdapter.O
             }
         });
 
-
-    }
-
-
-    public void dismissAddImageDialog() {
-
-        mDialogAddImage.dismiss();
+*/
     }
 
 
@@ -295,6 +289,11 @@ public class ProfileFragment extends Fragment implements MyRecyclerViewAdapter.O
 
     @Override
     public void onItemClicked(ComlancerImages user) {
+
+    }
+
+    @Override
+    public void onFeedbackSubmit(User user) {
 
     }
 

@@ -1,13 +1,10 @@
 package com.example.comlancer.Activitys;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,7 +16,8 @@ import com.example.comlancer.DialogFragments.AddFeedbackDialogFragment;
 import com.example.comlancer.DialogFragments.AddImageDialogFragment;
 import com.example.comlancer.Fragments.ChatFragment;
 import com.example.comlancer.Fragments.EditProfileFragment;
-import com.example.comlancer.Fragments.ProfileFragment;
+import com.example.comlancer.Fragments.HomeFragment;
+import com.example.comlancer.Fragments.PersonalProfileFragment;
 import com.example.comlancer.Fragments.TabFreelancerCompanyFragment;
 import com.example.comlancer.Models.ComlancerImages;
 import com.example.comlancer.Models.MyConstants;
@@ -36,8 +34,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import static androidx.constraintlayout.widget.Constraints.TAG;
 
-public class HomeActivity extends AppCompatActivity implements ProfileFragment.profileInterface, AddFeedbackDialogFragment.OnAddFeedback,
-        ChatFragment.OnFragmentInteractionListener, EditProfileFragment.EditProfileInterface, MyRecyclerViewAdapter.OnItemClickListener, AddImageDialogFragment.AddImgeToRecycleViewlInterface {
+public class ControlActivity extends AppCompatActivity implements PersonalProfileFragment.profileInterface, AddFeedbackDialogFragment.OnAddFeedback,
+        ChatFragment.OnFragmentInteractionListener, EditProfileFragment.EditProfileInterface, MyRecyclerViewAdapter.OnItemClickListener, AddImageDialogFragment.AddImgeToRecycleViewlInterface, HomeFragment.OnFragmentInteractionListener {
     /// this is for  BottomNavigationView
     private final BottomNavigationView.OnNavigationItemSelectedListener navListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -46,9 +44,7 @@ public class HomeActivity extends AppCompatActivity implements ProfileFragment.p
 
                     switch (menuItem.getItemId()) {
                         case R.id.item_nav_home:
-                            Intent goHomeIntent = new Intent(HomeActivity.this, HomeActivity.class);
-                            startActivity(goHomeIntent);
-
+                            changeFragmentTo(new HomeFragment(), HomeFragment.class.getSimpleName());
                             break;
                         case R.id.item_nav_search:
 
@@ -56,7 +52,9 @@ public class HomeActivity extends AppCompatActivity implements ProfileFragment.p
 
                             break;
                         case R.id.item_nav_profile:
-                            changeFragmentTo(new ProfileFragment(), ProfileFragment.class.getSimpleName());
+                            getUserInfo();
+                            // changeFragmentTo(new PersonalProfileFragment(), PersonalProfileFragment.class.getSimpleName());
+
                             break;
 
                         case R.id.item_nav_chat:
@@ -76,17 +74,8 @@ public class HomeActivity extends AppCompatActivity implements ProfileFragment.p
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_control);
 
-
-        Button profile = findViewById(R.id.btn_profile);
-
-        profile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getUserInfo();
-            }
-        });
 
 
         BottomNavigationView bottomNav = findViewById(R.id.bottomNavigation);
@@ -109,7 +98,7 @@ public class HomeActivity extends AppCompatActivity implements ProfileFragment.p
                 // whenever data at this location is updated.
                 User value = dataSnapshot.getValue(User.class);
 
-                changeFragmentTo(ProfileFragment.newInstance(value), ProfileFragment.class.getSimpleName());
+                changeFragmentTo(PersonalProfileFragment.newInstance(value), PersonalProfileFragment.class.getSimpleName());
 
             }
 
@@ -153,9 +142,9 @@ public class HomeActivity extends AppCompatActivity implements ProfileFragment.p
         myRef.setValue(user);
 
 
-        ProfileFragment fragment = (ProfileFragment) getSupportFragmentManager().findFragmentByTag(ProfileFragment.class.getSimpleName());
+        PersonalProfileFragment fragment = (PersonalProfileFragment) getSupportFragmentManager().findFragmentByTag(PersonalProfileFragment.class.getSimpleName());
         if (fragment != null && fragment.isVisible()) {
-            fragment.dismissFeedbackDialog();
+            // fragment.dismissFeedbackDialog();
             fragment.readUsersFromFirebase();
             fragment.updateRating(user.getAverageRating());
         }
@@ -215,7 +204,7 @@ public class HomeActivity extends AppCompatActivity implements ProfileFragment.p
     private void goBackToProfileFragment(User user) {
         onBackPressed();
 
-        ProfileFragment fragment = (ProfileFragment) getSupportFragmentManager().findFragmentByTag(ProfileFragment.class.getSimpleName());
+        PersonalProfileFragment fragment = (PersonalProfileFragment) getSupportFragmentManager().findFragmentByTag(PersonalProfileFragment.class.getSimpleName());
 
         if (fragment != null && fragment.isVisible()) {
 
@@ -244,7 +233,7 @@ public class HomeActivity extends AppCompatActivity implements ProfileFragment.p
         myRef.child(user.getFirebaseUserId()).setValue(user);
 
 
-        ProfileFragment fragment = (ProfileFragment) getSupportFragmentManager().findFragmentByTag(ProfileFragment.class.getSimpleName());
+        PersonalProfileFragment fragment = (PersonalProfileFragment) getSupportFragmentManager().findFragmentByTag(PersonalProfileFragment.class.getSimpleName());
 
         if (fragment != null && fragment.isVisible()) {
             fragment.dismissAddImageDialog();
