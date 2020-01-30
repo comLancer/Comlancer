@@ -1,6 +1,7 @@
 package com.example.comlancer.Activitys;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -36,6 +37,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import static androidx.constraintlayout.widget.Constraints.TAG;
+import static com.example.comlancer.Activitys.LoginRegistrationActivity.KEY_ROLE;
+import static com.example.comlancer.Activitys.LoginRegistrationActivity.MY_PREFS_NAME;
 
 public class ControlActivity extends AppCompatActivity implements PersonalProfileFragment.profileInterface, AddFeedbackDialogFragment.OnAddFeedback,
         ChatFragment.OnFragmentInteractionListener, EditProfileFragment.EditProfileInterface, MyRecyclerViewAdapter.OnItemClickListener, AddImageDialogFragment.AddImgeToRecycleViewlInterface,
@@ -92,7 +95,19 @@ public class ControlActivity extends AppCompatActivity implements PersonalProfil
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
 
 
-        DatabaseReference myRef = database.getReference(MyConstants.FB_KEY_CF).child(currentUser.getUid());
+        String myFirebaseRef;
+
+        if (getRole().equalsIgnoreCase(MyConstants.FB_KEY_USERS)) {
+            //   myFirebaseRef = FB_KEY_USERS;
+            myFirebaseRef = (MyConstants.FB_KEY_USERS);
+        } else {
+            //  myFirebaseRef =FB_KEY_CF;
+            myFirebaseRef = (MyConstants.FB_KEY_CF);
+        }
+
+        Log.d("myUser-info", "Controle // role: " + myFirebaseRef + "/" + currentUser.getUid());
+
+        DatabaseReference myRef = database.getReference(myFirebaseRef).child(currentUser.getUid());
 
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -111,6 +126,16 @@ public class ControlActivity extends AppCompatActivity implements PersonalProfil
                 Log.w(TAG, "Failed to read value.", error.toException());
             }
         });
+
+    }
+
+    private String getRole() {
+
+        SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        String name = prefs.getString(KEY_ROLE, "No role defined");//"No name defined" is the default value.
+        Log.d("myUser-info", "Register // name: " + name);
+        return name;
+
 
     }
 
@@ -136,11 +161,9 @@ public class ControlActivity extends AppCompatActivity implements PersonalProfil
     //that function allow the user to write the feedback and then upload it into the database in firebase...it also will display it in freelancer/company profile
     private void addFeedbackToProfileUser(User user) {
 
-        //TODO this should be added to comlancer
-        // Write a message to the database
+
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference(MyConstants.FB_KEY_CF)
-                .child(user.getName());
+        DatabaseReference myRef = database.getReference(MyConstants.FB_KEY_CF).child(user.getFirebaseUserId());
 
         myRef.setValue(user);
 

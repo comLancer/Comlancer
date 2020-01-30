@@ -195,7 +195,6 @@ public class PersonalProfileFragment extends Fragment implements MyRecyclerViewA
 
 
         mRatingBar.setRating(mUser.getAverageRating());
-        mUser = mUser;
 
 
         if (mUser.getMyRatingFeedback() != null) {

@@ -18,6 +18,8 @@ import com.example.comlancer.Models.RatingFeedBackContainer;
 import com.example.comlancer.Models.RatingFeedback;
 import com.example.comlancer.Models.User;
 import com.example.comlancer.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 
@@ -100,14 +102,17 @@ public class AddFeedbackDialogFragment extends DialogFragment {
             @Override
             public void onClick(View view) {
 
+                FirebaseAuth mAuth = FirebaseAuth.getInstance();
+                FirebaseUser currentUser = mAuth.getCurrentUser();
 
                 RatingFeedback rf = new RatingFeedback();
                 rf.setRating(ratingBar.getRating());
                 rf.setFeedback(etFeedback.getText().toString());
                 rf.setFullName(etnameFeedBack.getText().toString());
 
-                rf.setFullName(mUser.getName());
-                rf.setFirebaseId(mUser.getFirebaseUserId());
+                rf.setFullName(getUserFullNameFromSharedPref());
+                rf.setFirebaseId(currentUser.getUid());
+
                 if (mUser.getMyRatingFeedback() != null) {
                     mUser.getMyRatingFeedback().getFeedbackList().add(rf);
                 } else {
@@ -130,6 +135,7 @@ public class AddFeedbackDialogFragment extends DialogFragment {
                 mUser.setAverageRating(averageRating);
 
                 onSubmitPressed(mUser);
+                dismiss();
 
 
             }
