@@ -91,7 +91,7 @@ public class FreelancerFragment extends Fragment implements ListView.OnItemClick
 
                 }
 
-                mAdapter.updateFreelancerArrayList(items);
+                mAdapter.updateFreelancerCompaniesArrayList(items);
 
 
             }

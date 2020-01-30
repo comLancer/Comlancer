@@ -98,9 +98,10 @@ public class OthersProfileFragment extends Fragment implements MyRecyclerViewAda
 
         //this is for RecycleView
 
+        FloatingActionButton fabAdd = parentView.findViewById(R.id.fab_add);
+        Button btnChat = parentView.findViewById(R.id.btn_chat);
 
         mAuth = FirebaseAuth.getInstance().getInstance();
-        Button btnChat = parentView.findViewById(R.id.btn_chat);
         ivProfile = parentView.findViewById(R.id.iv_img_profile);
         mRatingBar = parentView.findViewById(R.id.ratingBar);
         tvName = parentView.findViewById(R.id.tv_name);
@@ -122,32 +123,38 @@ public class OthersProfileFragment extends Fragment implements MyRecyclerViewAda
             mAdapterRecycle.updateList(mUser.getImagesContainer().getImageList());
         }
 
-        FloatingActionButton fabAdd = parentView.findViewById(R.id.fab_add);
-
 
         fabAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+              /*  openLoginFragment();
+                openDialogFeedback();*/
                 mDialogFeedback = AddFeedbackDialogFragment.newInstance(mUser);
                 mDialogFeedback.show(getChildFragmentManager(), AddFeedbackDialogFragment.class.getSimpleName());
+
             }
         });
 
-
-     /*   imgbtnEditProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onEditPressed(mUser);
-            }
-        });
-*/
 
         readUsersFromFirebase();
 
         return parentView;
-
-
     }
+
+
+
+/*void openDialogFeedback() {
+    mDialogFeedback = AddFeedbackDialogFragment.newInstance(mUser);
+    mDialogFeedback.show(getChildFragmentManager(), AddFeedbackDialogFragment.class.getSimpleName());
+}
+
+    void openLoginFragment() {
+        Intent i=new Intent(mContext, LoginRegistrationActivity.class);
+        startActivity(i);
+
+
+    }*/
+
 
 
     //this is for RecycleView....
@@ -156,37 +163,6 @@ public class OthersProfileFragment extends Fragment implements MyRecyclerViewAda
         rvGrid.setItemAnimator(new DefaultItemAnimator());
         rvGrid.setAdapter(mAdapterRecycle);
     }
-
-    //  @Override
-   /* public void onClickAddImage(User user) {
-        String myFirebaseRef;
-
-        if (user.getRole().equalsIgnoreCase("User")) {
-            //   myFirebaseRef = FB_KEY_USERS;
-            myFirebaseRef = (MyConstants.FB_KEY_USERS);
-        } else {
-            //  myFirebaseRef =FB_KEY_CF;
-            myFirebaseRef = (MyConstants.FB_KEY_CF);
-        }
-
-        // Write a message to the database
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference(myFirebaseRef);
-
-        myRef.child(user.getFirebaseUserId()).setValue(user);
-
-
-    }*/
-
-    /*@Override
-    public void onCancelClick() {
-
-    }*/
-/*
-    public void dismissAddImageDialog() {
-
-        mDialogAddImage.dismiss();
-    }*/
 
 
     public void readUsersFromFirebase() {
@@ -207,18 +183,6 @@ public class OthersProfileFragment extends Fragment implements MyRecyclerViewAda
         }
 
 
-    /*    imgbtnAddImg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                mDialogAddImage = AddImageDialogFragment.newInstance(mUser);
-                mDialogAddImage.show(getChildFragmentManager(), AddImageDialogFragment.class.getSimpleName());
-
-
-            }
-        });
-
-*/
     }
 
 

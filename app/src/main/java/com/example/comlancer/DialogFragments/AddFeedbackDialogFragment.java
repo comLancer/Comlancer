@@ -2,7 +2,9 @@ package com.example.comlancer.DialogFragments;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +21,10 @@ import com.example.comlancer.R;
 
 import java.util.ArrayList;
 
+import static android.content.Context.MODE_PRIVATE;
+import static com.example.comlancer.Activitys.LoginRegistrationActivity.KEY_USER_NAME;
+import static com.example.comlancer.Activitys.LoginRegistrationActivity.MY_PREFS_NAME;
+
 
 public class AddFeedbackDialogFragment extends DialogFragment {
     // TODO: Rename parameter arguments, choose names that match
@@ -30,6 +36,7 @@ public class AddFeedbackDialogFragment extends DialogFragment {
     private User mUser;
     private static final String TAG = "addFeedback";
     private OnAddFeedback mListener;
+    private Context mContext;
 
     public AddFeedbackDialogFragment() {
         // Required empty public constructor
@@ -133,8 +140,19 @@ public class AddFeedbackDialogFragment extends DialogFragment {
     }
 
     private void getCurrentUserName(final EditText etnameFeedBack) {
-
         //TODO : GET getName FromSharePref
+
+        etnameFeedBack.setText(getUserFullNameFromSharedPref());
+
+    }
+
+    private String getUserFullNameFromSharedPref() {
+
+        SharedPreferences prefs = mContext.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        String name = prefs.getString(KEY_USER_NAME, "No pass defined");//"No name defined" is the default value.
+        Log.d("myUser-info", "Register // name: " + name);
+        return name;
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -147,6 +165,7 @@ public class AddFeedbackDialogFragment extends DialogFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        mContext = context;
         if (context instanceof OnAddFeedback) {
             mListener = (OnAddFeedback) context;
         } else {

@@ -1,7 +1,9 @@
 package com.example.comlancer.Fragments;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +14,12 @@ import android.widget.RadioGroup;
 
 import androidx.fragment.app.Fragment;
 
+import com.example.comlancer.Activitys.LoginRegistrationActivity;
+import com.example.comlancer.Models.MyConstants;
 import com.example.comlancer.Models.User;
 import com.example.comlancer.R;
+
+import static android.content.Context.MODE_PRIVATE;
 
 
 /**
@@ -26,6 +32,7 @@ public class RegistrationFragment extends Fragment {
 
     private RegisterListenerInterface mListener;
     RadioGroup radioGroup;
+    private Context mContext;
 
 
     public RegistrationFragment() {
@@ -48,10 +55,8 @@ public class RegistrationFragment extends Fragment {
         radioGroup = parentView.findViewById(R.id.radioGroup);
 
         Button btnRegister = parentView.findViewById(R.id.btn_register);
-        //Button btnLogin = parentView.findViewById(R.id.btn_login);
+
         Button btnBackLogin = parentView.findViewById(R.id.btn_back_login);
-
-
 
 
         btnRegister.setOnClickListener(new View.OnClickListener() {
@@ -67,8 +72,7 @@ public class RegistrationFragment extends Fragment {
                 user.setRole(role);
 
 
-                onRegisterPressed(user);
-
+                writeSharedPref(user);
 
             }
         });
@@ -105,11 +109,33 @@ public class RegistrationFragment extends Fragment {
     }
 
 
-
     public void onRegisterPressed(User user) {
         if (mListener != null) {
             mListener.onRegisterClick(user);
         }
+    }
+
+
+    private void writeSharedPref(User user) {
+        SharedPreferences.Editor editor = mContext.getSharedPreferences(LoginRegistrationActivity.MY_PREFS_NAME, MODE_PRIVATE).edit();
+        editor.putString(LoginRegistrationActivity.KEY_USER_NAME, user.getName());
+        editor.putString(LoginRegistrationActivity.KEY_PASSWORD, user.getPassword());
+        editor.putString(LoginRegistrationActivity.KEY_EMAILE, user.getEmail());
+
+        String role;
+        if (user.getRole().equalsIgnoreCase("User")) {
+            role = (MyConstants.FB_KEY_USERS);
+        } else {
+            role = (MyConstants.FB_KEY_CF);
+        }
+        editor.putString(LoginRegistrationActivity.KEY_ROLE, role);
+
+        editor.apply();
+
+
+        Log.d("myUser-info", "Register // name: " + user.getName());
+
+        onRegisterPressed(user);
     }
 
     public void onLoginPressed() {
@@ -121,6 +147,7 @@ public class RegistrationFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        mContext = context;
         if (context instanceof RegisterListenerInterface) {
             mListener = (RegisterListenerInterface) context;
         } else {

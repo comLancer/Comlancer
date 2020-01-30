@@ -1,12 +1,14 @@
 package com.example.comlancer.Fragments;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -14,6 +16,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.example.comlancer.Activitys.LoginRegistrationActivity;
 import com.example.comlancer.DialogFragments.ForgotPasswordDialogFragment;
 import com.example.comlancer.Models.User;
 import com.example.comlancer.R;
@@ -23,13 +26,14 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import static android.content.Context.MODE_PRIVATE;
 import static androidx.constraintlayout.widget.Constraints.TAG;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
-\
+ * \
  * to handle interaction events.
  */
 public class LoginFragment extends Fragment {
@@ -37,6 +41,8 @@ public class LoginFragment extends Fragment {
     private onLoginInterface mListener;
     private Context mcontext;
     ForgotPasswordDialogFragment mDialog;
+    User mUser;
+
 
     public LoginFragment() {
         // Required empty public constructor
@@ -53,14 +59,17 @@ public class LoginFragment extends Fragment {
 
         View perantView = inflater.inflate(R.layout.fragment_login, container, false);
         final EditText etEmail = perantView.findViewById(R.id.et_title);
-        final    EditText etpass =perantView.findViewById(R.id.et_pass);
+        final EditText etpass = perantView.findViewById(R.id.et_pass);
         final TextView tvForgetPassword = perantView.findViewById(R.id.tv_forget_pass);
-        Button btnLogin=perantView.findViewById(R.id.btn_login);
-        Button btnRegister=perantView.findViewById(R.id.btn_registration);
+        final CheckBox cbStayLoggedIn = perantView.findViewById(R.id.cb_stay_logged_in);
+        Button btnLogin = perantView.findViewById(R.id.btn_login);
+        Button btnRegister = perantView.findViewById(R.id.btn_registration);
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loginToFirebase(etEmail.getText().toString(),etpass.getText().toString());
+
+                loginToFirebase(etEmail.getText().toString(), etpass.getText().toString(), cbStayLoggedIn.isChecked());
+
             }
         });
 
@@ -82,12 +91,8 @@ public class LoginFragment extends Fragment {
         });
 
 
-
-
-
         return perantView;
     }
-
 
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -96,6 +101,7 @@ public class LoginFragment extends Fragment {
             mListener.onLoginClick(user);
         }
     }
+
     public void onButtonRegister() {
         if (mListener != null) {
             mListener.onRegisterClick();
@@ -103,11 +109,9 @@ public class LoginFragment extends Fragment {
     }
 
 
-
-
     @Override
     public void onAttach(Context context) {
-        mcontext=context;
+        mcontext = context;
         super.onAttach(context);
         if (context instanceof onLoginInterface) {
             mListener = (onLoginInterface) context;
@@ -118,17 +122,24 @@ public class LoginFragment extends Fragment {
     }
 
 
+    private void writeSharedPref(User user, boolean shouldStayLogin) {
+        SharedPreferences.Editor editor = mcontext.getSharedPreferences(LoginRegistrationActivity.MY_PREFS_NAME, MODE_PRIVATE).edit();
+        editor.putString(LoginRegistrationActivity.KEY_PASSWORD, user.getPassword());
+        editor.putString(LoginRegistrationActivity.KEY_EMAILE, user.getEmail());
+        editor.putBoolean(LoginRegistrationActivity.KEY_STAY_LOGIN, shouldStayLogin);
+        Log.d("myUser-info", "Register // name: " + user.getName());
+        editor.apply();
+
+    }
 
 
-
-    void  loginToFirebase(final String email, final String password) {
-
+    void loginToFirebase(final String email, final String password, final boolean shouldStayLogin) {
 
 
-        mAuth.signInWithEmailAndPassword(email,password)
-                .addOnCompleteListener(getActivity(),new OnCompleteListener<AuthResult>() {
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
                     @Override
-                    public void onComplete (@NonNull Task< AuthResult > task) {
+                    public void onComplete(@NonNull Task<AuthResult> task) {
                         FirebaseUser firebaseUser = null;
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
@@ -136,13 +147,18 @@ public class LoginFragment extends Fragment {
                             firebaseUser = mAuth.getCurrentUser();
 
 
+                            if (checkIfEmailIsVerified(firebaseUser)) {
+                                /////
+                                User userobj = new User();
+                                userobj.setEmail(email);
+                                userobj.setPassword(password);
+                                userobj.setFirebaseUserId(firebaseUser.getUid());
 
-                            /////
-                            User userobj = new User();
-                            userobj.setEmail(email);
-                            userobj.setPassword(password);
-                            userobj.setFirebaseUserId(firebaseUser.getUid());
-                            onButtonLogin(userobj);
+                                writeSharedPref(userobj, shouldStayLogin);
+                                onButtonLogin(userobj);
+                            } else {
+                                Toast.makeText(mcontext, "Please Verfiy your email", Toast.LENGTH_SHORT).show();
+                            }
 
                         } else {
                             // If sign in fails, display a message to the user.
@@ -154,9 +170,12 @@ public class LoginFragment extends Fragment {
 
 
                     }
-                });}
+                });
+    }
 
-
+    private boolean checkIfEmailIsVerified(final FirebaseUser firebaseUser) {
+        return firebaseUser.isEmailVerified();
+    }
 
 
     @Override

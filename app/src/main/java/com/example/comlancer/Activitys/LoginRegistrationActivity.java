@@ -24,11 +24,20 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class LoginRegistrationActivity extends AppCompatActivity implements LoginFragment.onLoginInterface, RegistrationFragment.RegisterListenerInterface {
-   // private static final String FB_KEY_CF = "CompanyAndFreelancer";
+    public static final String MY_PREFS_NAME = "my_pref";
+    public static final String KEY_USER_NAME = "userName";
+    public static final String KEY_PASSWORD = "pass";
+    public static final String KEY_EMAILE = "Email";
+    public static final String KEY_STAY_LOGIN = "staylogin";
+    public static final String KEY_ROLE = "Role";
+
+    // private static final String FB_KEY_CF = "CompanyAndFreelancer";
    // private static final String FB_KEY_USERS = "users";
+
     private DatabaseReference mRef;
     private static final String TAG = "";
     private FirebaseAuth mAuth;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,14 +112,7 @@ public class LoginRegistrationActivity extends AppCompatActivity implements Logi
         });
     }
 
-    private boolean checkIfEmailIsVerified(final FirebaseUser firebaseUser) {
-        return firebaseUser.isEmailVerified();
-    }
 
-
-    public void onSignInClick() {
-        changeFragmentTo(new LoginFragment(), LoginFragment.class.getSimpleName());
-    }
 
 
     private void addUserToFirebaseWrite(User user) {
@@ -133,7 +135,6 @@ public class LoginRegistrationActivity extends AppCompatActivity implements Logi
         myRef.child(user.getFirebaseUserId()).setValue(user);
 
         changeFragmentTo(new LoginFragment(), LoginFragment.class.getSimpleName());
-
 
     }
 

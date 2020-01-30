@@ -27,7 +27,7 @@ public class UserAdapter extends BaseAdapter {
         mItemsArrayList = new ArrayList<>();
     }
 
-    public void updateFreelancerArrayList(ArrayList<User> newItems) {
+    public void updateFreelancerCompaniesArrayList(ArrayList<User> newItems) {
         mItemsArrayList = newItems;
         notifyDataSetChanged();
     }

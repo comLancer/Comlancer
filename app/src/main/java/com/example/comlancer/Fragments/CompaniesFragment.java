@@ -42,9 +42,8 @@ public class CompaniesFragment extends Fragment implements ListView.OnItemClickL
         // Required empty public constructor
     }
 
-
-    public void setListener(ComapaniesListenerInerface listener) {
-        mListener = (TabFreelancerCompanyFragment) listener;
+    public void setListener(CompaniesFragment.ComapaniesListenerInerface listener) {
+        mListener = listener;
 
     }
 
@@ -81,14 +80,14 @@ public class CompaniesFragment extends Fragment implements ListView.OnItemClickL
                 items.clear();
                 for (DataSnapshot d : dataSnapshot.getChildren()) {
                     User value = d.getValue(User.class);
-                    if (value.getRole().equalsIgnoreCase("Comapanies")) {
+                    if (value.getRole().equalsIgnoreCase("Company")) {
                         items.add(value);
                     }
 
 
                 }
 
-                mAdapter.updateFreelancerArrayList(items);
+                mAdapter.updateFreelancerCompaniesArrayList(items);
 
 
             }
@@ -136,8 +135,6 @@ public class CompaniesFragment extends Fragment implements ListView.OnItemClickL
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-
         onItemPressed((User) adapterView.getAdapter().getItem(i));
 
     }

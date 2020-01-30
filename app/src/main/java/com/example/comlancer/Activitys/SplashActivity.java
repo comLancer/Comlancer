@@ -1,10 +1,10 @@
 package com.example.comlancer.Activitys;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.example.comlancer.R;
@@ -35,7 +35,7 @@ public class SplashActivity extends AppCompatActivity {
                     sleep(5 * 1000);
 
                     // After 5 seconds redirect to another intent
-                    Intent i=new Intent(SplashActivity.this, LoginRegistrationActivity.class);
+                    Intent i = new Intent(SplashActivity.this, ControlActivity.class);
                     startActivity(i);
 
 

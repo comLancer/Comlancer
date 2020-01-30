@@ -16,7 +16,7 @@
         android:ems="10"
         android:hint="Email"
         android:inputType="textEmailAddress"
-        android:text="safa95alshuaili@gmail.com"
+        android:text="safaalshuaili1@gmail.com"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -73,4 +73,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_registration" />
+
+    <CheckBox
+        android:id="@+id/cb_stay_logged_in"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginBottom="42dp"
+        android:text="Stay Loggedin "
+        app:layout_constraintBottom_toTopOf="@+id/tv_forget_pass"
+        app:layout_constraintEnd_toStartOf="@+id/btn_registration"
+        app:layout_constraintStart_toStartOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
