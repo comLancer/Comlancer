@@ -16,6 +16,8 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
     private final Context mContext;
     private final TabFreelancerCompanyFragment mFragment;
     private CharSequence[] tabTitles = {"Companies", "Freelancers"};
+    private CompaniesFragment companiesFragment;
+    private FreelancerFragment freelancerFragment;
 
     public TabsPagerAdapter(TabFreelancerCompanyFragment fragment, Context context, FragmentManager fm) {
         super(fm);
@@ -27,11 +29,11 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                CompaniesFragment companiesFragment = new CompaniesFragment();
+                companiesFragment = new CompaniesFragment();
                 companiesFragment.setListener(mFragment);
                 return companiesFragment;
             case 1:
-                FreelancerFragment freelancerFragment = new FreelancerFragment();
+                freelancerFragment = new FreelancerFragment();
                 freelancerFragment.setListener(mFragment);
                 return freelancerFragment;
 

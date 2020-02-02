@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.comlancer.Adapter.UserAdapter;
 import com.example.comlancer.Models.MyConstants;
+import com.example.comlancer.Models.SearchListener;
 import com.example.comlancer.Models.User;
 import com.example.comlancer.R;
 import com.google.firebase.database.DataSnapshot;
@@ -24,11 +25,13 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import static com.example.comlancer.Models.MyConstants.KEY_ALL_ITEMS;
+
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CompaniesFragment extends Fragment implements ListView.OnItemClickListener {
+public class CompaniesFragment extends Fragment implements ListView.OnItemClickListener, SearchListener {
 
     private ComapaniesListenerInerface mListener;
 
@@ -36,6 +39,7 @@ public class CompaniesFragment extends Fragment implements ListView.OnItemClickL
     private Context mContext;
     DatabaseReference mRef;
     private static final String TAG = "company-fragment";
+    private ArrayList<User> items;
 
 
     public CompaniesFragment() {
@@ -76,21 +80,19 @@ public class CompaniesFragment extends Fragment implements ListView.OnItemClickL
         mRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                ArrayList<User> items = new ArrayList<>();
+
+                items = new ArrayList<>();
                 items.clear();
                 for (DataSnapshot d : dataSnapshot.getChildren()) {
                     User value = d.getValue(User.class);
                     if (value.getRole().equalsIgnoreCase("Company")) {
                         items.add(value);
                     }
-
-
                 }
-
                 mAdapter.updateFreelancerCompaniesArrayList(items);
 
-
             }
+
 
             @Override
             public void onCancelled(DatabaseError error) {
@@ -139,6 +141,32 @@ public class CompaniesFragment extends Fragment implements ListView.OnItemClickL
 
     }
 
+    @Override
+    public void onTextChanged(String searchKey) {
+
+        if (items != null && !searchKey.equals(KEY_ALL_ITEMS)) {
+            search(searchKey);
+        } else {
+            readCompaniesFromFirebase();
+        }
+
+    }
+
+    private void search(String searchKey) {
+
+        ArrayList<User> temp = new ArrayList<>();
+
+        for (User u : items) {
+            boolean isName = u.getName().toLowerCase().contains(searchKey.toLowerCase());
+            boolean isTag = u.getTag().toLowerCase().contains(searchKey.toLowerCase());
+            if (isName || isTag) {
+                temp.add(u);
+            }
+        }
+        mAdapter.updateFreelancerCompaniesArrayList(temp);
+
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -152,7 +180,6 @@ public class CompaniesFragment extends Fragment implements ListView.OnItemClickL
     public interface ComapaniesListenerInerface {
         // TODO: Update argument type and name
         void onItemClickCompany(User user);
-
     }
 }
 

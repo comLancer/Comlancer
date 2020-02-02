@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.comlancer.Adapter.UserAdapter;
 import com.example.comlancer.Models.MyConstants;
+import com.example.comlancer.Models.SearchListener;
 import com.example.comlancer.Models.User;
 import com.example.comlancer.R;
 import com.google.firebase.database.DataSnapshot;
@@ -24,11 +25,13 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import static com.example.comlancer.Models.MyConstants.KEY_ALL_ITEMS;
+
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FreelancerFragment extends Fragment implements ListView.OnItemClickListener {
+public class FreelancerFragment extends Fragment implements ListView.OnItemClickListener, SearchListener {
 
     private FreelancerListenerInerface mListener;
 
@@ -36,7 +39,7 @@ public class FreelancerFragment extends Fragment implements ListView.OnItemClick
     private Context mContext;
     DatabaseReference mRef;
     private static final String TAG = "freelancer-fragment";
-
+    private ArrayList<User> items;
 
     public FreelancerFragment() {
         // Required empty public constructor
@@ -80,7 +83,7 @@ public class FreelancerFragment extends Fragment implements ListView.OnItemClick
         mRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                ArrayList<User> items = new ArrayList<>();
+                items = new ArrayList<>();
                 items.clear();
                 for (DataSnapshot d : dataSnapshot.getChildren()) {
                     User value = d.getValue(User.class);
@@ -141,6 +144,33 @@ public class FreelancerFragment extends Fragment implements ListView.OnItemClick
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         onItemPressed((User) adapterView.getAdapter().getItem(i));
+
+    }
+
+    @Override
+    public void onTextChanged(String searchKey) {
+
+        if (items != null && !searchKey.equals(KEY_ALL_ITEMS)) {
+            search(searchKey);
+        } else {
+            readFreelancerFromFirebase();
+        }
+
+    }
+
+    private void search(String searchKey) {
+
+        ArrayList<User> temp = new ArrayList<>();
+
+        for (User u : items) {
+            boolean isName = u.getName().toLowerCase().contains(searchKey.toLowerCase());
+            boolean isTag = u.getTag().toLowerCase().contains(searchKey.toLowerCase());
+
+            if (isName || isTag) {
+                temp.add(u);
+            }
+        }
+        mAdapter.updateFreelancerCompaniesArrayList(temp);
 
     }
 

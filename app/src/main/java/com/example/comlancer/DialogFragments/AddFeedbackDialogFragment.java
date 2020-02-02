@@ -82,10 +82,11 @@ public class AddFeedbackDialogFragment extends DialogFragment {
         View perantView = inflater.inflate(R.layout.fragment_add_feedback, container, false);
 
         final RatingBar ratingBar = perantView.findViewById(R.id.ratingbar);
-        final EditText etFeedback = perantView.findViewById(R.id.et_feedback);
+
         final Button btnSubmit = perantView.findViewById(R.id.btn_submit);
         final Button btnCancel = perantView.findViewById(R.id.btn_cancel);
         final EditText etnameFeedBack = perantView.findViewById(R.id.et_name_feedback);
+        final EditText etFeedback = perantView.findViewById(R.id.et_feedback);
 
         getCurrentUserName(etnameFeedBack);
 

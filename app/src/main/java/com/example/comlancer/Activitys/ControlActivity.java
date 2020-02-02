@@ -60,7 +60,6 @@ public class ControlActivity extends AppCompatActivity implements PersonalProfil
                             break;
                         case R.id.item_nav_profile:
                             getUserInfo();
-                            // changeFragmentTo(new PersonalProfileFragment(), PersonalProfileFragment.class.getSimpleName());
 
                             break;
 
@@ -82,6 +81,8 @@ public class ControlActivity extends AppCompatActivity implements PersonalProfil
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_control);
+
+        changeFragmentTo(new HomeFragment(), HomeFragment.class.getSimpleName());// display home fragment
 
 
         BottomNavigationView bottomNav = findViewById(R.id.bottomNavigation);

@@ -25,9 +25,16 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import static android.content.Context.MODE_PRIVATE;
 import static androidx.constraintlayout.widget.Constraints.TAG;
+import static com.example.comlancer.Models.MyConstants.FB_KEY_CF;
+import static com.example.comlancer.Models.MyConstants.FB_KEY_USERS;
 
 
 /**
@@ -122,13 +129,43 @@ public class LoginFragment extends Fragment {
     }
 
 
-    private void writeSharedPref(User user, boolean shouldStayLogin) {
-        SharedPreferences.Editor editor = mcontext.getSharedPreferences(LoginRegistrationActivity.MY_PREFS_NAME, MODE_PRIVATE).edit();
-        editor.putString(LoginRegistrationActivity.KEY_PASSWORD, user.getPassword());
-        editor.putString(LoginRegistrationActivity.KEY_EMAILE, user.getEmail());
-        editor.putBoolean(LoginRegistrationActivity.KEY_STAY_LOGIN, shouldStayLogin);
-        Log.d("myUser-info", "Register // name: " + user.getName());
-        editor.apply();
+    private void writeSharedPref(final User user, final boolean shouldStayLogin) {
+
+
+        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
+        rootRef.child(FB_KEY_CF).child(user.getFirebaseUserId());
+        rootRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+
+
+                String role;
+
+
+                if (snapshot != null && snapshot.getValue(User.class).getFirebaseUserId() != null) {
+                    Log.d("FID", snapshot.getValue(User.class).getFirebaseUserId() + "huh");
+                    role = FB_KEY_CF;
+                } else {
+                    role = FB_KEY_USERS;
+                }
+
+
+                SharedPreferences.Editor editor = mcontext.getSharedPreferences(LoginRegistrationActivity.MY_PREFS_NAME, MODE_PRIVATE).edit();
+                editor.putString(LoginRegistrationActivity.KEY_PASSWORD, user.getPassword());
+                editor.putString(LoginRegistrationActivity.KEY_EMAILE, user.getEmail());
+                editor.putBoolean(LoginRegistrationActivity.KEY_STAY_LOGIN, shouldStayLogin);
+                editor.putString(LoginRegistrationActivity.KEY_ROLE, role);
+
+                Log.d("myUser-info", "login // name: " + user.getName() + "/" + role);
+                editor.apply();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
 
     }
 

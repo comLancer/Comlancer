@@ -76,7 +76,6 @@ public class PersonalProfileFragment extends Fragment implements MyRecyclerViewA
         PersonalProfileFragment fragment = new PersonalProfileFragment();
         Bundle args = new Bundle();
         args.putSerializable(KEY_Users, user);
-
         fragment.setArguments(args);
         return fragment;
     }
