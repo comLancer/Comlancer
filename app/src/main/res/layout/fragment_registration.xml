@@ -17,7 +17,8 @@
         app:layout_constraintBottom_toTopOf="@+id/btn_back_login"
         app:layout_constraintEnd_toEndOf="@+id/et_pass"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/et_pass" />
+        app:layout_constraintStart_toStartOf="@+id/et_pass"
+        android:background="@drawable/roundbutton"/>
 
     <Button
         android:id="@+id/btn_back_login"
@@ -28,7 +29,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/btn_register"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/btn_register" />
+        app:layout_constraintStart_toStartOf="@+id/btn_register"
+        android:background="@drawable/roundbutton"/>
 
     <EditText
         android:id="@+id/et_rePass"
@@ -106,7 +108,7 @@
 
         <RadioButton
             android:id="@+id/radio_company"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
             android:layout_weight="0.13"
@@ -116,11 +118,11 @@
 
         <RadioButton
             android:id="@+id/radio_users"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="46dp"
             android:layout_gravity="left"
-            android:checked="true"
             android:layout_weight="0.13"
+            android:checked="true"
             android:text="User"
             android:textSize="25dp" />
     </RadioGroup>

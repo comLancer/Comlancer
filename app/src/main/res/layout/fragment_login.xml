@@ -37,53 +37,50 @@
 
     <Button
         android:id="@+id/btn_login"
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
-        android:layout_marginStart="161dp"
-        android:layout_marginTop="101dp"
-        android:layout_marginEnd="162dp"
-        android:layout_marginBottom="8dp"
+        android:layout_width="147dp"
+        android:layout_height="57dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/roundbutton"
         android:text="LOGIN"
-        app:layout_constraintBottom_toTopOf="@+id/btn_registration"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_pass" />
 
     <Button
         android:id="@+id/btn_registration"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="8dp"
+        android:layout_width="0dp"
+        android:layout_height="61dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/roundbutton"
         android:text="Registration"
-        app:layout_constraintBottom_toTopOf="@+id/tv_forget_pass"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/btn_login"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/btn_login"
         app:layout_constraintTop_toBottomOf="@+id/btn_login" />
 
     <TextView
         android:id="@+id/tv_forget_pass"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="20dp"
+        android:layout_marginBottom="160dp"
         android:text="Forgot Password"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_registration" />
+        app:layout_constraintEnd_toEndOf="@+id/cb_stay_logged_in"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/cb_stay_logged_in" />
 
     <CheckBox
         android:id="@+id/cb_stay_logged_in"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="3dp"
-        android:layout_marginBottom="42dp"
+        android:layout_width="130dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="24dp"
         android:text="Stay Loggedin "
         app:layout_constraintBottom_toTopOf="@+id/tv_forget_pass"
-        app:layout_constraintEnd_toStartOf="@+id/btn_registration"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toEndOf="@+id/btn_registration"
+        app:layout_constraintHorizontal_bias="0.47"
+        app:layout_constraintStart_toStartOf="@+id/btn_registration"
+        app:layout_constraintTop_toBottomOf="@+id/btn_registration"
+        app:layout_constraintVertical_bias="0.105" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
