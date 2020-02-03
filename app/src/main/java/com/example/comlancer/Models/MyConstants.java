@@ -9,7 +9,7 @@ public class MyConstants {
 
     public static final String FB_KEY_CF = "CompanyAndFreelancer";
     public static final String FB_KEY_USERS = "users";
-
+    public static final String KEY_CATEGORY = "category";
 
     public static final String KEY_ALL_ITEMS = "KEY_ALL_ITEMS";
 

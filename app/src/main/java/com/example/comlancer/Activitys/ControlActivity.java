@@ -42,7 +42,7 @@ import static com.example.comlancer.Activitys.LoginRegistrationActivity.MY_PREFS
 
 public class ControlActivity extends AppCompatActivity implements PersonalProfileFragment.profileInterface, AddFeedbackDialogFragment.OnAddFeedback,
         ChatFragment.OnFragmentInteractionListener, EditProfileFragment.EditProfileInterface, MyRecyclerViewAdapter.OnItemClickListener, AddImageDialogFragment.AddImgeToRecycleViewlInterface,
-        HomeFragment.OnFragmentInteractionListener, CompaniesFragment.ComapaniesListenerInerface, FreelancerFragment.FreelancerListenerInerface, TabFreelancerCompanyFragment.TabPageListener {
+        HomeFragment.OnCategoryButttonClick, CompaniesFragment.ComapaniesListenerInerface, FreelancerFragment.FreelancerListenerInerface, TabFreelancerCompanyFragment.TabPageListener {
     /// this is for  BottomNavigationView
     private final BottomNavigationView.OnNavigationItemSelectedListener navListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -76,6 +76,7 @@ public class ControlActivity extends AppCompatActivity implements PersonalProfil
 
     //this is for RecycleView
     Context mContext;
+    BottomNavigationView bottomNav;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +86,7 @@ public class ControlActivity extends AppCompatActivity implements PersonalProfil
         changeFragmentTo(new HomeFragment(), HomeFragment.class.getSimpleName());// display home fragment
 
 
-        BottomNavigationView bottomNav = findViewById(R.id.bottomNavigation);
+        bottomNav = findViewById(R.id.bottomNavigation);
         bottomNav.setOnNavigationItemSelectedListener((BottomNavigationView.OnNavigationItemSelectedListener) navListener);
 
     }
@@ -192,10 +193,6 @@ public class ControlActivity extends AppCompatActivity implements PersonalProfil
 
     }
 
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
-    }
 
     @Override
     public void onClickEditProfileFormEditFragment(User user) {
@@ -300,6 +297,18 @@ public class ControlActivity extends AppCompatActivity implements PersonalProfil
     @Override
     public void onItemClickFreelancer(User user) {
         openLoginFragment();
+
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
+
+    @Override
+    public void OnClick(String catagory) {
+        bottomNav.setSelectedItemId(R.id.item_nav_search);
+        changeFragmentTo(TabFreelancerCompanyFragment.newInstance(catagory), TabFreelancerCompanyFragment.class.getSimpleName());
 
     }
 }

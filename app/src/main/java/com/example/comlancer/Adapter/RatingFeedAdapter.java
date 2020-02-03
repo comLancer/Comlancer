@@ -55,13 +55,13 @@ public class RatingFeedAdapter extends BaseAdapter {
         }
 
         TextView tvName = itemView.findViewById(R.id.tv_name);
-        //TextView tvFeedback = itemView.findViewById(R.id.tv_feedback);
+        TextView tvFeedback = itemView.findViewById(R.id.tv_feedback);
         RatingBar ratingBar = itemView.findViewById(R.id.ratingBar);
 
         RatingFeedback f = (RatingFeedback) getItem(position);
 
         tvName.setText(f.getFullName());
-       // tvFeedback.setText(f.getFeedback());
+        tvFeedback.setText(f.getFeedback());
         ratingBar.setRating(f.getRating());
 
 

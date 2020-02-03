@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
@@ -20,6 +21,7 @@ import com.example.comlancer.R;
 import com.google.android.material.tabs.TabLayout;
 
 import static com.example.comlancer.Models.MyConstants.KEY_ALL_ITEMS;
+import static com.example.comlancer.Models.MyConstants.KEY_CATEGORY;
 
 public class TabFreelancerCompanyFragment extends Fragment implements CompaniesFragment.ComapaniesListenerInerface, FreelancerFragment.FreelancerListenerInerface {
 
@@ -27,6 +29,7 @@ public class TabFreelancerCompanyFragment extends Fragment implements CompaniesF
     private Context mContext;
     private TabPageListener mListener;
     private SearchListener mSearchListener;
+    private String mCategory;
 
     @Override
     public void onAttach(Context context) {
@@ -37,6 +40,22 @@ public class TabFreelancerCompanyFragment extends Fragment implements CompaniesF
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement TabPageListener");
+        }
+    }
+
+    public static TabFreelancerCompanyFragment newInstance(String category) {
+        Bundle args = new Bundle();
+        TabFreelancerCompanyFragment fragment = new TabFreelancerCompanyFragment();
+        args.putString(KEY_CATEGORY, category);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            mCategory = getArguments().getString(KEY_CATEGORY);
         }
     }
 
@@ -57,6 +76,10 @@ public class TabFreelancerCompanyFragment extends Fragment implements CompaniesF
 
         viewPager.setAdapter(tabsPagerAdapter);
         tabs.setupWithViewPager(viewPager);
+
+        if (mCategory != null) {
+            et_search.setText(mCategory);
+        }
 
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {

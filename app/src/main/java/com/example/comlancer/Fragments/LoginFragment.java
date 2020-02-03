@@ -32,7 +32,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import static android.content.Context.MODE_PRIVATE;
-import static androidx.constraintlayout.widget.Constraints.TAG;
 import static com.example.comlancer.Models.MyConstants.FB_KEY_CF;
 import static com.example.comlancer.Models.MyConstants.FB_KEY_USERS;
 
@@ -131,25 +130,19 @@ public class LoginFragment extends Fragment {
 
     private void writeSharedPref(final User user, final boolean shouldStayLogin) {
 
-
-        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
-        rootRef.child(FB_KEY_CF).child(user.getFirebaseUserId());
-        rootRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference(FB_KEY_CF).child(mAuth.getCurrentUser().getUid());
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot snapshot) {
+            public void onDataChange(DataSnapshot dataSnapshot) {
 
-
+                User value = dataSnapshot.getValue(User.class);
                 String role;
-
-
-                if (snapshot != null && snapshot.getValue(User.class).getFirebaseUserId() != null) {
-                    Log.d("FID", snapshot.getValue(User.class).getFirebaseUserId() + "huh");
+                if (value != null && value.getFirebaseUserId() != null) {
                     role = FB_KEY_CF;
                 } else {
                     role = FB_KEY_USERS;
                 }
-
-
                 SharedPreferences.Editor editor = mcontext.getSharedPreferences(LoginRegistrationActivity.MY_PREFS_NAME, MODE_PRIVATE).edit();
                 editor.putString(LoginRegistrationActivity.KEY_PASSWORD, user.getPassword());
                 editor.putString(LoginRegistrationActivity.KEY_EMAILE, user.getEmail());
@@ -158,11 +151,14 @@ public class LoginFragment extends Fragment {
 
                 Log.d("myUser-info", "login // name: " + user.getName() + "/" + role);
                 editor.apply();
+
+                onButtonLogin(user);
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w("value", "Failed to read value.", error.toException());
             }
         });
 
@@ -180,7 +176,7 @@ public class LoginFragment extends Fragment {
                         FirebaseUser firebaseUser = null;
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "signInWithEmail:success");
+                            Log.d("signin", "signInWithEmail:success");
                             firebaseUser = mAuth.getCurrentUser();
 
 
@@ -192,14 +188,14 @@ public class LoginFragment extends Fragment {
                                 userobj.setFirebaseUserId(firebaseUser.getUid());
 
                                 writeSharedPref(userobj, shouldStayLogin);
-                                onButtonLogin(userobj);
+
                             } else {
                                 Toast.makeText(mcontext, "Please Verfiy your email", Toast.LENGTH_SHORT).show();
                             }
 
                         } else {
                             // If sign in fails, display a message to the user.
-                            Log.w(TAG, "signInWithEmail:failure", task.getException());
+                            Log.w("signin", "signInWithEmail:failure", task.getException());
                             Toast.makeText(mcontext, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
 

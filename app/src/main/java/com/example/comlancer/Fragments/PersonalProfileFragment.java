@@ -111,6 +111,7 @@ public class PersonalProfileFragment extends Fragment implements MyRecyclerViewA
         tvTag = parentView.findViewById(R.id.tv_tag);
         imgbtnEditProfile = parentView.findViewById(R.id.imgbtn_edit_profile);
         imgbtnAddImg = parentView.findViewById(R.id.imgbtn_addImage);
+        ImageButton imgbtnLogout = parentView.findViewById(R.id.imgbtn_logout);
         lvFeedback = parentView.findViewById(R.id.lv_list_feedback);
         mAdapterRating = new RatingFeedAdapter(mContext);
 
@@ -133,6 +134,18 @@ public class PersonalProfileFragment extends Fragment implements MyRecyclerViewA
         });
 */
 
+
+        imgbtnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                mAuth.signOut();
+                // startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                //    finish();
+
+            }
+        });
         imgbtnEditProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

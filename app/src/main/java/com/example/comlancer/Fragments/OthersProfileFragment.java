@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -108,6 +110,9 @@ public class OthersProfileFragment extends Fragment implements MyRecyclerViewAda
         tvInfo = parentView.findViewById(R.id.tv_info);
         tvInfo.setMovementMethod(new ScrollingMovementMethod());
         rvGrid = parentView.findViewById(R.id.recycler_view);
+        ImageButton imgbtnLiner = parentView.findViewById(R.id.imgbtn_liner);
+        ImageButton imgbtnGrid = parentView.findViewById(R.id.imgbtn_grid);
+
         mAdapterRecycle = new MyRecyclerViewAdapter(mContext);
         setupRecyclerViewGrid();
 
@@ -136,6 +141,22 @@ public class OthersProfileFragment extends Fragment implements MyRecyclerViewAda
         });
 
 
+        imgbtnLiner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setupRecyclerViewLiner();
+            }
+        });
+
+
+        imgbtnGrid.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setupRecyclerViewGrid();
+            }
+        });
+
+
         readUsersFromFirebase();
 
         return parentView;
@@ -160,6 +181,13 @@ public class OthersProfileFragment extends Fragment implements MyRecyclerViewAda
     //this is for RecycleView....
     private void setupRecyclerViewGrid() {
         rvGrid.setLayoutManager(new GridLayoutManager(mContext, NUMBER_OF_COLUMNS));
+        rvGrid.setItemAnimator(new DefaultItemAnimator());
+        rvGrid.setAdapter(mAdapterRecycle);
+    }
+
+    //this is for RecycleView....
+    private void setupRecyclerViewLiner() {
+        rvGrid.setLayoutManager(new LinearLayoutManager(mContext, RecyclerView.VERTICAL, true));
         rvGrid.setItemAnimator(new DefaultItemAnimator());
         rvGrid.setAdapter(mAdapterRecycle);
     }
