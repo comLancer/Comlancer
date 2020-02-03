@@ -2,16 +2,30 @@ package com.example.comlancer.Fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ListView;
 
 import androidx.fragment.app.Fragment;
 
-import com.example.comlancer.Models.SearchListener;
+import com.example.comlancer.Adapter.UserAdapter;
+import com.example.comlancer.Models.MyConstants;
 import com.example.comlancer.Models.User;
 import com.example.comlancer.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.Collections;
+
+import static androidx.constraintlayout.widget.Constraints.TAG;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,9 +44,12 @@ public class HomeFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private SearchListener mSearchListener;
+    DatabaseReference mRef;
     private OnCategoryButttonClick mListener;
-
+    UserAdapter mAdapter;
+    User mUser;
+    private Context mContext;
+    private ArrayList<User> items;
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -67,6 +84,12 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View parentView = inflater.inflate(R.layout.fragment_home, container, false);
 
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        mRef = database.getReference(MyConstants.FB_KEY_CF);
+
+
+
+
         Button btnPrograming = parentView.findViewById(R.id.btn_Programing);
         btnPrograming.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,9 +106,75 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        Button btnPhotography = parentView.findViewById(R.id.btn_Photography);
+        btnPrograming.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onButtonPressed("Photography");
+            }
+        });
+
+        Button btnDesign = parentView.findViewById(R.id.btn_design);
+        btnPrograming.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onButtonPressed("Design");
+            }
+        });
+
+
+        ListView listView = parentView.findViewById(R.id.list_view);
+
+        mAdapter = new UserAdapter(mContext);
+        readCompaniesFromFirebase();
+        listView.setAdapter(mAdapter);
+
+        // listView.setOnItemClickListener(this);
+
 
         return parentView;
     }
+
+
+    public void readCompaniesFromFirebase() {
+
+        Query query = FirebaseDatabase.getInstance().getReference(MyConstants.FB_KEY_CF).orderByChild("averageRating").limitToFirst(3);
+
+        // Read from the database
+        query.addValueEventListener(new ValueEventListener() {
+
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                items = new ArrayList<>();
+                items.clear();
+                for (DataSnapshot d : dataSnapshot.getChildren()) {
+                    User value = d.getValue(User.class);
+
+
+                    //////////////////////
+
+
+                    ///////////////////
+                    //  if (value.getRole().equalsIgnoreCase("Company")) {
+                    items.add(value);
+                    //}
+                    // }
+                    Collections.reverse(items);
+                    mAdapter.updateFreelancerCompaniesArrayList(items);
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
+    }
+
 
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -95,8 +184,15 @@ public class HomeFragment extends Fragment {
         }
     }
 
+    public void onItemPressed(String category) {
+        if (mListener != null) {
+            mListener.OnClick(category);
+        }
+    }
+
     @Override
     public void onAttach(Context context) {
+        mContext = context;
         super.onAttach(context);
         if (context instanceof OnCategoryButttonClick) {
             mListener = (OnCategoryButttonClick) context;
@@ -111,6 +207,7 @@ public class HomeFragment extends Fragment {
         super.onDetach();
         mListener = null;
     }
+
 
     /**
      * This interface must be implemented by activities that contain this

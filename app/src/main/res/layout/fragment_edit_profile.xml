@@ -45,8 +45,8 @@
         <Button
             android:id="@+id/btn_add"
             style="@style/Widget.AppCompat.Button.Borderless.Colored"
-            android:layout_width="121dp"
-            android:layout_height="80dp"
+            android:layout_width="73dp"
+            android:layout_height="58dp"
             android:layout_marginEnd="24dp"
             android:layout_marginBottom="24dp"
             android:background="@drawable/roundbutton"
@@ -58,8 +58,8 @@
         <Button
             android:id="@+id/btn_cancel"
             style="@style/Widget.AppCompat.Button.Borderless.Colored"
-            android:layout_width="115dp"
-            android:layout_height="80dp"
+            android:layout_width="78dp"
+            android:layout_height="53dp"
             android:layout_marginStart="24dp"
             android:background="@drawable/roundbutton"
             android:text="Cancel"

@@ -52,6 +52,8 @@ public class UserAdapter extends BaseAdapter {
 
         if (itemView == null) {
             itemView = LayoutInflater.from(mContext).inflate(R.layout.list_item_company_freelancer, viewGroup, false);
+
+
         }
 
         TextView tvName = itemView.findViewById(R.id.tv_name);
@@ -62,7 +64,7 @@ public class UserAdapter extends BaseAdapter {
         tvName.setText(u.getName());
         ratingBar.setRating(u.getAverageRating());
 
-        Glide.with(mContext).load(u.getImageUrl()).placeholder(R.mipmap.ic_launcher).into(ivImg);
+        Glide.with(mContext).load(u.getImageUrl()).placeholder(R.drawable.ic_profile).into(ivImg);
 
 
 

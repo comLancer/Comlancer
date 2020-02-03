@@ -56,7 +56,7 @@ public class RegistrationFragment extends Fragment {
 
         Button btnRegister = parentView.findViewById(R.id.btn_register);
 
-        Button btnBackLogin = parentView.findViewById(R.id.btn_back_login);
+        Button btnBackLogin = parentView.findViewById(R.id.btn_back);
 
 
         btnRegister.setOnClickListener(new View.OnClickListener() {
@@ -82,13 +82,6 @@ public class RegistrationFragment extends Fragment {
             public void onClick(View v) {
                 onLoginPressed();
 
-            }
-        });
-
-        btnBackLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onLoginPressed();
             }
         });
 

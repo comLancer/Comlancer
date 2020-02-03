@@ -234,6 +234,7 @@ public class EditProfileFragment extends Fragment {
         intentObj.setType("image/*");
         intentObj.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intentObj, "Select Picture"), PICK_IMAGE);
+
     }
 
     @Override

@@ -141,8 +141,8 @@ public class PersonalProfileFragment extends Fragment implements MyRecyclerViewA
 
 
                 mAuth.signOut();
-                // startActivity(new Intent(SplashActivity.this, MainActivity.class));
-                //    finish();
+
+                getActivity().finish();
 
             }
         });
