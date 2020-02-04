@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
@@ -35,7 +36,7 @@ import static androidx.constraintlayout.widget.Constraints.TAG;
  * Use the {@link HomeFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements ListView.OnItemClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     public static final String KEY_USER = "user";
@@ -107,7 +108,7 @@ public class HomeFragment extends Fragment {
         });
 
         Button btnPhotography = parentView.findViewById(R.id.btn_Photography);
-        btnPrograming.setOnClickListener(new View.OnClickListener() {
+        btnPhotography.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onButtonPressed("Photography");
@@ -115,7 +116,7 @@ public class HomeFragment extends Fragment {
         });
 
         Button btnDesign = parentView.findViewById(R.id.btn_design);
-        btnPrograming.setOnClickListener(new View.OnClickListener() {
+        btnDesign.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onButtonPressed("Design");
@@ -125,9 +126,11 @@ public class HomeFragment extends Fragment {
 
         ListView listView = parentView.findViewById(R.id.list_view);
 
+
         mAdapter = new UserAdapter(mContext);
         readCompaniesFromFirebase();
         listView.setAdapter(mAdapter);
+        listView.setOnItemClickListener(this);
 
         // listView.setOnItemClickListener(this);
 
@@ -184,9 +187,9 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    public void onItemPressed(String category) {
+    public void onItemPressed(User user) {
         if (mListener != null) {
-            mListener.OnClick(category);
+            mListener.onItemClickItem(user);
         }
     }
 
@@ -208,6 +211,12 @@ public class HomeFragment extends Fragment {
         mListener = null;
     }
 
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        onItemPressed((User) parent.getAdapter().getItem(position));
+
+    }
+
 
     /**
      * This interface must be implemented by activities that contain this
@@ -222,5 +231,7 @@ public class HomeFragment extends Fragment {
     public interface OnCategoryButttonClick {
         // TODO: Update argument type and name
         void OnClick(String catagory);
+
+        void onItemClickItem(User user);
     }
 }

@@ -269,6 +269,7 @@ public class ControlActivity extends AppCompatActivity implements PersonalProfil
         changeFragmentTo(new OthersProfileFragment(), OthersProfileFragment.class.getSimpleName());
     }
 
+
     @Override
     public void onCancelClick() {
 
@@ -309,6 +310,11 @@ public class ControlActivity extends AppCompatActivity implements PersonalProfil
     public void OnClick(String catagory) {
         bottomNav.setSelectedItemId(R.id.item_nav_search);
         changeFragmentTo(TabFreelancerCompanyFragment.newInstance(catagory), TabFreelancerCompanyFragment.class.getSimpleName());
+    }
+
+    @Override
+    public void onItemClickItem(User user) {
+        changeFragmentTo(OthersProfileFragment.newInstance(user), OthersProfileFragment.class.getSimpleName());
 
     }
 }
