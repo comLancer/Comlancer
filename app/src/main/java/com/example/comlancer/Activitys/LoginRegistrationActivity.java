@@ -119,14 +119,18 @@ public class LoginRegistrationActivity extends AppCompatActivity implements Logi
 
 
         String myFirebaseRef;
+        user.getRole().equalsIgnoreCase("User");
+        myFirebaseRef = (MyConstants.FB_ALL);
 
+
+/*
         if (user.getRole().equalsIgnoreCase("User")) {
          //   myFirebaseRef = FB_KEY_USERS;
             myFirebaseRef = (MyConstants.FB_KEY_USERS);
         }else{
           //  myFirebaseRef =FB_KEY_CF;
             myFirebaseRef =(MyConstants.FB_KEY_CF);
-        }
+        }*/
 
         // Write a message to the database
         FirebaseDatabase database = FirebaseDatabase.getInstance();

@@ -116,11 +116,15 @@ public class RegistrationFragment extends Fragment {
         editor.putString(LoginRegistrationActivity.KEY_EMAILE, user.getEmail());
 
         String role;
-        if (user.getRole().equalsIgnoreCase("User")) {
+        user.getRole().equalsIgnoreCase("User");
+        role = MyConstants.FB_ALL;
+
+
+     /*   if (user.getRole().equalsIgnoreCase("User")) {
             role = (MyConstants.FB_KEY_USERS);
         } else {
             role = (MyConstants.FB_KEY_CF);
-        }
+        }*/
         editor.putString(LoginRegistrationActivity.KEY_ROLE, role);
 
         editor.apply();

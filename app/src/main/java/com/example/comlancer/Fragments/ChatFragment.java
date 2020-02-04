@@ -3,34 +3,45 @@ package com.example.comlancer.Fragments;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.comlancer.ChatRecyclerViewAdapter;
+import com.example.comlancer.Message;
 import com.example.comlancer.R;
+import com.google.android.material.textfield.TextInputEditText;
+
+import java.util.ArrayList;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link ChatFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link ChatFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class ChatFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    private static final String MESSAGE_SENDER = "Sam";
+    private ArrayList<Message> mMessages;
+    private ChatRecyclerViewAdapter mAdapter;
+    private RecyclerView recyclerView;
+
+
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+    private Context mContext;
 
     public ChatFragment() {
         // Required empty public constructor
@@ -60,6 +71,7 @@ public class ChatFragment extends Fragment {
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
+
         }
     }
 
@@ -67,8 +79,119 @@ public class ChatFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_chat, container, false);
+        View perantView = inflater.inflate(R.layout.fragment_chat, container, false);
+
+
+        //TODO : this is just to remember importing my_message drawable
+        ImageView my_message = new ImageView(mContext);
+        my_message.setBackgroundResource(R.drawable.my_message);
+
+        //TODO : this is just to remember importing my_message drawable
+        ImageView imageView = new ImageView(mContext);
+        imageView.setBackgroundResource(R.drawable.my_message);
+
+
+        recyclerView = perantView.findViewById(R.id.rv_messages_view);
+        setupRecyclerView();
+
+        final TextInputEditText tietWrittenMessage = perantView.findViewById(R.id.tiet_writen_message);
+        ImageButton ibSend = perantView.findViewById(R.id.ibSend);
+
+        ibSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (!TextUtils.isEmpty(tietWrittenMessage.getText().toString())) {
+                    addMessage(tietWrittenMessage.getText().toString());
+                }
+
+            }
+        });
+
+        return perantView;
+
     }
+
+
+    private void addMessage(String messageContent) {
+        Message m = new Message(MESSAGE_SENDER, messageContent, true);
+        mMessages.add(m);
+        recyclerView.scrollToPosition(recyclerView.getAdapter().getItemCount() - 1);
+        mAdapter.notifyItemChanged(mMessages.size() - 1, m);
+    }
+
+    private void setupRecyclerView() {
+
+        mAdapter = new ChatRecyclerViewAdapter(mContext, createDemoChat());
+
+        // you need these codes < Start >
+        LinearLayoutManager layoutManager
+                = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
+        layoutManager.setStackFromEnd(true);
+       /*
+        DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
+                ((LinearLayoutManager) layoutManager).getOrientation());
+        recyclerView.addItemDecoration(mDividerItemDecoration);*/
+
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(mAdapter);
+
+        scrollToLast();
+    }
+
+    private void scrollToLast() {
+        recyclerView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+            @Override
+            public void onLayoutChange(View v,
+                                       int left, int top, int right, int bottom,
+                                       int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                if (bottom < oldBottom) {
+                    recyclerView.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            recyclerView.smoothScrollToPosition(
+                                    recyclerView.getAdapter().getItemCount() - 1);
+                        }
+                    }, 100);
+                }
+            }
+        });
+    }
+
+    private ArrayList<Message> createDemoChat() {
+
+        mMessages = new ArrayList<>();
+
+        mMessages.add(new Message(MESSAGE_SENDER, "Hi!", false));
+        mMessages.add(new Message(MESSAGE_SENDER, "Hello!", true));
+        mMessages.add(new Message(MESSAGE_SENDER, "how are you!", false));
+        mMessages.add(new Message(MESSAGE_SENDER, "are you doing well!", false));
+        mMessages.add(new Message(MESSAGE_SENDER, "are you doing well!are you doing well!are you doing well!are you doing well!are you doing well!", false));
+        mMessages.add(new Message(MESSAGE_SENDER, "What is that huh!", true));
+        mMessages.add(new Message(MESSAGE_SENDER, "man you having a bad day ?!", true));
+
+
+        mMessages.add(new Message(MESSAGE_SENDER, "2Hi!", false));
+        mMessages.add(new Message(MESSAGE_SENDER, "2Hello!", true));
+        mMessages.add(new Message(MESSAGE_SENDER, "2how are you!", false));
+        mMessages.add(new Message(MESSAGE_SENDER, "2are you doing well!", false));
+        mMessages.add(new Message(MESSAGE_SENDER, "2are you doing well!are you doing well!are you doing well!are you doing well!are you doing well!", false));
+        mMessages.add(new Message(MESSAGE_SENDER, "2What is that huh!", true));
+        mMessages.add(new Message(MESSAGE_SENDER, "2man you having a bad day ?!", true));
+
+        mMessages.add(new Message(MESSAGE_SENDER, "3Hi!", false));
+        mMessages.add(new Message(MESSAGE_SENDER, "3Hello!", true));
+        mMessages.add(new Message(MESSAGE_SENDER, "3how are you!", false));
+        mMessages.add(new Message(MESSAGE_SENDER, "3are you doing well!", false));
+        mMessages.add(new Message(MESSAGE_SENDER, "3are you doing well!are you doing well!are you doing well!are you doing well!are you doing well!", false));
+        mMessages.add(new Message(MESSAGE_SENDER, "3What is that huh!", true));
+        mMessages.add(new Message(MESSAGE_SENDER, "3man you having a bad day ?!", true));
+
+
+        return mMessages;
+    }
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -80,6 +203,7 @@ public class ChatFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        mContext = context;
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
@@ -103,7 +227,7 @@ public class ChatFragment extends Fragment {
      * See the Android Training lesson <a href=
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
-     */
+     **/
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);

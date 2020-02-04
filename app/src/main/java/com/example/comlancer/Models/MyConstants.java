@@ -14,5 +14,5 @@ public class MyConstants {
     public static final String KEY_ALL_ITEMS = "KEY_ALL_ITEMS";
 
 
-
+    public static final String FB_ALL = "AllUsers";
 }

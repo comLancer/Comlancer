@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#D8ABD1D6"
     tools:context=".Fragments.PersonalProfileFragment">
 
 
@@ -73,9 +74,10 @@
 
     <Button
         android:id="@+id/btn_chat"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="56dp"
         android:layout_marginEnd="24dp"
+        android:background="@drawable/roundbutton"
         android:text="Chat"
         app:layout_constraintBottom_toBottomOf="@+id/ratingBar"
         app:layout_constraintEnd_toEndOf="parent"
