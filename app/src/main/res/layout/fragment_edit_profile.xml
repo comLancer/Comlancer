@@ -117,19 +117,18 @@
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
             android:ems="10"
-            android:hint="Edit your Tag"
 
+            android:hint="Edit your Tag"
             app:layout_constraintBottom_toTopOf="@+id/btn_add"
             app:layout_constraintEnd_toEndOf="@+id/et_title"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/et_title"
+            app:layout_constraintStart_toEndOf="@+id/imageView6"
             app:layout_constraintTop_toBottomOf="@+id/et_title"
             app:layout_constraintVertical_bias="0.224" />
 
         <ImageView
             android:id="@+id/imageView2"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_marginStart="8dp"
             app:layout_constraintBottom_toBottomOf="@+id/et_name"
             app:layout_constraintStart_toStartOf="parent"
@@ -139,8 +138,8 @@
 
         <ImageView
             android:id="@+id/imageView3"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_marginStart="8dp"
             app:layout_constraintBottom_toBottomOf="@+id/et_email"
             app:layout_constraintStart_toStartOf="parent"
@@ -149,8 +148,8 @@
 
         <ImageView
             android:id="@+id/imageView4"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_marginStart="8dp"
             app:layout_constraintBottom_toBottomOf="@+id/et_title"
             app:layout_constraintStart_toStartOf="parent"
@@ -159,13 +158,23 @@
 
         <ImageView
             android:id="@+id/imageView5"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_marginStart="8dp"
             app:layout_constraintBottom_toBottomOf="@+id/et_profile_img"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/et_profile_img"
             app:srcCompat="@drawable/ic_image" />
+
+        <ImageView
+            android:id="@+id/imageView6"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/et_tag"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/et_tag"
+            app:srcCompat="@drawable/ic_favorite" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

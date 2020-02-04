@@ -10,7 +10,7 @@
     <color name="colorMenu">#658596</color>
     <color name="colorText">#FFFFFF</color>
     <color name="colorBorder">#F0D98F</color>
-    <color name="colorIcon">#F5BC0A</color>
+    <color name="colorIcon">#658596</color>
 
     colorPrimary
 </resources>
