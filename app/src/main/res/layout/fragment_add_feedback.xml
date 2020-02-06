@@ -2,45 +2,33 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#FFFF">
+    android:layout_height="match_parent">
 
-    <View
-        android:id="@+id/scrollView"
-        android:layout_width="0dp"
-        android:layout_height="56dp"
-        android:background="@color/colorView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btn_submit"
-        android:layout_width="100dp"
-        android:layout_height="54dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="32dp"
-        android:background="@drawable/roundbutton"
         android:text="Submit"
-        android:textColor="@color/colorText"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_feedback" />
+        app:layout_constraintTop_toBottomOf="@+id/et_feedback"
+        android:background="@drawable/roundbutton"/>
 
     <Button
         android:id="@+id/btn_cancel"
-        android:layout_width="102dp"
-        android:layout_height="51dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="44dp"
-        android:background="@drawable/roundbutton"
-        android:textColor="@color/colorText"
-
         android:text="Cancel"
         app:layout_constraintBottom_toBottomOf="@+id/btn_submit"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/btn_submit"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.0"
+        android:background="@drawable/roundbutton"/>
 
     <RatingBar
         android:id="@+id/ratingbar"
