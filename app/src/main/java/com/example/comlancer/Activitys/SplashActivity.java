@@ -32,12 +32,12 @@ public class SplashActivity extends AppCompatActivity {
             public void run() {
                 try {
                     // Thread will sleep for 5 seconds
-                    sleep(5 * 1000);
+                    sleep(850);
 
                     // After 5 seconds redirect to another intent
                     Intent i = new Intent(SplashActivity.this, ControlActivity.class);
                     startActivity(i);
-
+                    finish();
 
                     //Remove activity
                     finish();

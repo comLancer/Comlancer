@@ -113,7 +113,7 @@ public class AddImageDialogFragment extends DialogFragment {
         final FirebaseUser currentUser = mAuth.getCurrentUser();
 
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        mRef = database.getReference(MyConstants.FB_KEY_CF).child(currentUser.getUid());
+        mRef = database.getReference(MyConstants.FB_ALL_USERS).child(currentUser.getUid());
 
 
         Button btnCancel = parentView.findViewById(R.id.btn_cancel);

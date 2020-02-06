@@ -1,6 +1,7 @@
 package com.example.comlancer.Activitys;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -37,8 +38,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import static androidx.constraintlayout.widget.Constraints.TAG;
-import static com.example.comlancer.Activitys.LoginRegistrationActivity.KEY_ROLE;
+import static com.example.comlancer.Activitys.LoginRegistrationActivity.KEY_EMAILE;
 import static com.example.comlancer.Activitys.LoginRegistrationActivity.MY_PREFS_NAME;
+import static com.example.comlancer.Models.MyConstants.FB_ALL_USERS;
+import static com.example.comlancer.Models.MyConstants.KEY_SP_ERROR_NO_EMAIL;
 
 public class ControlActivity extends AppCompatActivity implements PersonalProfileFragment.profileInterface, AddFeedbackDialogFragment.OnAddFeedback,
         ChatFragment.OnFragmentInteractionListener, EditProfileFragment.EditProfileInterface, MyRecyclerViewAdapter.OnItemClickListener, AddImageDialogFragment.AddImgeToRecycleViewlInterface,
@@ -92,49 +95,43 @@ public class ControlActivity extends AppCompatActivity implements PersonalProfil
     }
 
     private void getUserInfo() {
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        final FirebaseUser currentUser = mAuth.getCurrentUser();
-        final FirebaseDatabase database = FirebaseDatabase.getInstance();
-
-
-        String myFirebaseRef;
-
-        if (getRole().equalsIgnoreCase(MyConstants.FB_KEY_USERS)) {
-            //   myFirebaseRef = FB_KEY_USERS;
-            myFirebaseRef = (MyConstants.FB_KEY_USERS);
+        if (getEmailSharedPref().equals(KEY_SP_ERROR_NO_EMAIL)) {
+            moveToLoginRegisterActivity();
         } else {
-            //  myFirebaseRef =FB_KEY_CF;
-            myFirebaseRef = (MyConstants.FB_KEY_CF);
+            FirebaseAuth mAuth = FirebaseAuth.getInstance();
+            final FirebaseUser currentUser = mAuth.getCurrentUser();
+            final FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+            DatabaseReference myRef = database.getReference(FB_ALL_USERS).child(currentUser.getUid());
+
+            myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    // This method is called once with the initial value and again
+                    // whenever data at this location is updated.
+                    User value = dataSnapshot.getValue(User.class);
+
+                    changeFragmentTo(PersonalProfileFragment.newInstance(value), PersonalProfileFragment.class.getSimpleName());
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError error) {
+                    // Failed to read value
+                    Log.w(TAG, "Failed to read value.", error.toException());
+                }
+            });
         }
-
-        Log.d("myUser-info", "Controle // role: " + myFirebaseRef + "/" + currentUser.getUid());
-
-        DatabaseReference myRef = database.getReference(myFirebaseRef).child(currentUser.getUid());
-
-        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-                User value = dataSnapshot.getValue(User.class);
-
-                changeFragmentTo(PersonalProfileFragment.newInstance(value), PersonalProfileFragment.class.getSimpleName());
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Log.w(TAG, "Failed to read value.", error.toException());
-            }
-        });
-
     }
 
-    private String getRole() {
+    private void moveToLoginRegisterActivity() {
+        startActivity(new Intent(ControlActivity.this, LoginRegistrationActivity.class));
+    }
+
+    private String getEmailSharedPref() {
 
         SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
-        String name = prefs.getString(KEY_ROLE, "No role defined");//"No name defined" is the default value.
+        String name = prefs.getString(KEY_EMAILE, MyConstants.KEY_SP_ERROR_NO_EMAIL);//"No name defined" is the default value.
         Log.d("myUser-info", "Register // name: " + name);
         return name;
 
@@ -165,7 +162,7 @@ public class ControlActivity extends AppCompatActivity implements PersonalProfil
 
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference(MyConstants.FB_KEY_CF).child(user.getFirebaseUserId());
+        DatabaseReference myRef = database.getReference(FB_ALL_USERS).child(user.getFirebaseUserId());
 
         myRef.setValue(user);
 
@@ -188,6 +185,11 @@ public class ControlActivity extends AppCompatActivity implements PersonalProfil
     }
 
     @Override
+    public void finishActivity() {
+        finish();
+    }
+
+    @Override
     public void onFeedbackSubmit(User user) {
         addFeedbackToProfileUser(user);
 
@@ -203,19 +205,9 @@ public class ControlActivity extends AppCompatActivity implements PersonalProfil
     // this function will take the data from the edit tezxt and save in the database then it will return to profile fragment
     private void editUserInfo(User user) {
 
-        String myFirebaseRef;
-
-        if (user.getRole().equalsIgnoreCase("User")) {
-            //   myFirebaseRef = FB_KEY_USERS;
-            myFirebaseRef = (MyConstants.FB_KEY_USERS);
-        } else {
-            //  myFirebaseRef =FB_KEY_CF;
-            myFirebaseRef = (MyConstants.FB_KEY_CF);
-        }
-
         // Write a message to the database
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference(myFirebaseRef);
+        DatabaseReference myRef = database.getReference(FB_ALL_USERS);
 
         myRef.child(user.getFirebaseUserId()).setValue(user);
 
@@ -240,19 +232,11 @@ public class ControlActivity extends AppCompatActivity implements PersonalProfil
 
     @Override
     public void onClickAddImage(User user) {
-        String myFirebaseRef;
 
-        if (user.getRole().equalsIgnoreCase("User")) {
-            //   myFirebaseRef = FB_KEY_USERS;
-            myFirebaseRef = (MyConstants.FB_KEY_USERS);
-        } else {
-            //  myFirebaseRef =FB_KEY_CF;
-            myFirebaseRef = (MyConstants.FB_KEY_CF);
-        }
 
         // Write a message to the database
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference(myFirebaseRef);
+        DatabaseReference myRef = database.getReference(FB_ALL_USERS);
 
         myRef.child(user.getFirebaseUserId()).setValue(user);
 
@@ -316,5 +300,30 @@ public class ControlActivity extends AppCompatActivity implements PersonalProfil
     public void onItemClickItem(User user) {
         changeFragmentTo(OthersProfileFragment.newInstance(user), OthersProfileFragment.class.getSimpleName());
 
+    }
+
+    @Override
+    public void onBackPressed() {
+
+
+        if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
+            super.onBackPressed();
+
+            Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.frame_container);
+
+            if (fragment instanceof HomeFragment) {
+                bottomNav.setSelectedItemId(R.id.item_nav_home);
+            } else if (fragment instanceof ChatFragment) {
+                bottomNav.setSelectedItemId(R.id.item_nav_chat);
+            } else if (fragment instanceof TabFreelancerCompanyFragment) {
+                bottomNav.setSelectedItemId(R.id.item_nav_search);
+            } else if (fragment instanceof PersonalProfileFragment) {
+                bottomNav.setSelectedItemId(R.id.item_nav_profile);
+            }
+
+
+        } else {
+            finish();
+        }
     }
 }

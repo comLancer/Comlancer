@@ -32,8 +32,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import static android.content.Context.MODE_PRIVATE;
-import static com.example.comlancer.Models.MyConstants.FB_KEY_CF;
-import static com.example.comlancer.Models.MyConstants.FB_KEY_USERS;
+import static com.example.comlancer.Models.MyConstants.FB_ALL_USERS;
 
 
 /**
@@ -130,29 +129,23 @@ public class LoginFragment extends Fragment {
 
     private void writeSharedPref(final User user, final boolean shouldStayLogin) {
 
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference(FB_KEY_CF).child(mAuth.getCurrentUser().getUid());
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference(FB_ALL_USERS).child(mAuth.getCurrentUser().getUid());
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 User value = dataSnapshot.getValue(User.class);
-                String role;
-                if (value != null && value.getFirebaseUserId() != null) {
-                    role = FB_KEY_CF;
-                } else {
-                    role = FB_KEY_USERS;
-                }
-                SharedPreferences.Editor editor = mcontext.getSharedPreferences(LoginRegistrationActivity.MY_PREFS_NAME, MODE_PRIVATE).edit();
-                editor.putString(LoginRegistrationActivity.KEY_PASSWORD, user.getPassword());
-                editor.putString(LoginRegistrationActivity.KEY_EMAILE, user.getEmail());
-                editor.putBoolean(LoginRegistrationActivity.KEY_STAY_LOGIN, shouldStayLogin);
-                editor.putString(LoginRegistrationActivity.KEY_ROLE, role);
 
-                Log.d("myUser-info", "login // name: " + user.getName() + "/" + role);
+                SharedPreferences.Editor editor = mcontext.getSharedPreferences(LoginRegistrationActivity.MY_PREFS_NAME, MODE_PRIVATE).edit();
+                editor.putString(LoginRegistrationActivity.KEY_PASSWORD, value.getPassword());
+                editor.putString(LoginRegistrationActivity.KEY_EMAILE, value.getEmail());
+                editor.putString(LoginRegistrationActivity.KEY_USER_NAME, value.getName());
+                editor.putBoolean(LoginRegistrationActivity.KEY_STAY_LOGIN, shouldStayLogin);
+                editor.putString(LoginRegistrationActivity.KEY_ROLE, value.getRole());
                 editor.apply();
 
-                onButtonLogin(user);
+                onButtonLogin(value);
             }
 
             @Override

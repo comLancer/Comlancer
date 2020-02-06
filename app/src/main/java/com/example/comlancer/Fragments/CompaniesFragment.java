@@ -59,7 +59,7 @@ public class CompaniesFragment extends Fragment implements ListView.OnItemClickL
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
 
-        mRef = database.getReference(MyConstants.FB_KEY_CF);
+        mRef = database.getReference(MyConstants.FB_ALL_USERS);
 
         ListView listView = parentView.findViewById(R.id.list_view);
 

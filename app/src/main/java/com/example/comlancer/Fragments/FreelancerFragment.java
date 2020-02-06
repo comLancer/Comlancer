@@ -62,7 +62,7 @@ public class FreelancerFragment extends Fragment implements ListView.OnItemClick
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
 
-        mRef = database.getReference(MyConstants.FB_KEY_CF);
+        mRef = database.getReference(MyConstants.FB_ALL_USERS);
 
         ListView listView = parentView.findViewById(R.id.list_view);
 

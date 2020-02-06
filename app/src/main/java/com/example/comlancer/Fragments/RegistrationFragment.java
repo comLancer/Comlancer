@@ -3,7 +3,6 @@ package com.example.comlancer.Fragments;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -116,22 +115,14 @@ public class RegistrationFragment extends Fragment {
         editor.putString(LoginRegistrationActivity.KEY_EMAILE, user.getEmail());
 
         String role;
-        user.getRole().equalsIgnoreCase("User");
-        role = MyConstants.FB_ALL;
 
-
-     /*   if (user.getRole().equalsIgnoreCase("User")) {
+        if (user.getRole().equalsIgnoreCase("User")) {
             role = (MyConstants.FB_KEY_USERS);
         } else {
             role = (MyConstants.FB_KEY_CF);
-        }*/
+        }
         editor.putString(LoginRegistrationActivity.KEY_ROLE, role);
-
         editor.apply();
-
-
-        Log.d("myUser-info", "Register // name: " + user.getName());
-
         onRegisterPressed(user);
     }
 

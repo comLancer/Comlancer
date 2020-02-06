@@ -1,6 +1,7 @@
 package com.example.comlancer.Fragments;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
@@ -18,17 +19,20 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.comlancer.Activitys.LoginRegistrationActivity;
 import com.example.comlancer.Adapter.MyRecyclerViewAdapter;
 import com.example.comlancer.Adapter.RatingFeedAdapter;
 import com.example.comlancer.DialogFragments.AddImageDialogFragment;
 import com.example.comlancer.Models.ComlancerImages;
-import com.example.comlancer.Models.MyConstants;
 import com.example.comlancer.Models.User;
 import com.example.comlancer.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.mikhaellopez.circularimageview.CircularImageView;
+
+import static android.content.Context.MODE_PRIVATE;
+import static com.example.comlancer.Models.MyConstants.FB_ALL_USERS;
 
 
 /**
@@ -139,10 +143,14 @@ public class PersonalProfileFragment extends Fragment implements MyRecyclerViewA
             @Override
             public void onClick(View v) {
 
-
                 mAuth.signOut();
+                SharedPreferences.Editor editor = mContext.getSharedPreferences(LoginRegistrationActivity.MY_PREFS_NAME, MODE_PRIVATE).edit();
+                editor.clear();
+                editor.apply();
 
-                getActivity().finish();
+                if (mListener != null) {
+                    mListener.finishActivity();
+                }
 
             }
         });
@@ -172,19 +180,11 @@ public class PersonalProfileFragment extends Fragment implements MyRecyclerViewA
 
     @Override
     public void onClickAddImage(User user) {
-        String myFirebaseRef;
 
-        if (user.getRole().equalsIgnoreCase("User")) {
-            //   myFirebaseRef = FB_KEY_USERS;
-            myFirebaseRef = (MyConstants.FB_KEY_USERS);
-        } else {
-            //  myFirebaseRef =FB_KEY_CF;
-            myFirebaseRef = (MyConstants.FB_KEY_CF);
-        }
 
         // Write a message to the database
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference(myFirebaseRef);
+        DatabaseReference myRef = database.getReference(FB_ALL_USERS);
 
         myRef.child(user.getFirebaseUserId()).setValue(user);
 
@@ -321,5 +321,7 @@ public class PersonalProfileFragment extends Fragment implements MyRecyclerViewA
     public interface profileInterface {
         // TODO: Update argument type and name
         void onClick(User user);
+
+        void finishActivity();
     }
 }

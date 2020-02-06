@@ -31,11 +31,9 @@ public class LoginRegistrationActivity extends AppCompatActivity implements Logi
     public static final String KEY_STAY_LOGIN = "staylogin";
     public static final String KEY_ROLE = "Role";
 
-    // private static final String FB_KEY_CF = "CompanyAndFreelancer";
-   // private static final String FB_KEY_USERS = "users";
 
     private DatabaseReference mRef;
-    private static final String TAG = "";
+    private static final String TAG = "error_tag";
     private FirebaseAuth mAuth;
 
 
@@ -120,19 +118,8 @@ public class LoginRegistrationActivity extends AppCompatActivity implements Logi
 
         String myFirebaseRef;
         user.getRole().equalsIgnoreCase("User");
-        myFirebaseRef = (MyConstants.FB_ALL);
+        myFirebaseRef = (MyConstants.FB_ALL_USERS);
 
-
-/*
-        if (user.getRole().equalsIgnoreCase("User")) {
-         //   myFirebaseRef = FB_KEY_USERS;
-            myFirebaseRef = (MyConstants.FB_KEY_USERS);
-        }else{
-          //  myFirebaseRef =FB_KEY_CF;
-            myFirebaseRef =(MyConstants.FB_KEY_CF);
-        }*/
-
-        // Write a message to the database
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference(myFirebaseRef);
 
@@ -170,7 +157,17 @@ public class LoginRegistrationActivity extends AppCompatActivity implements Logi
 
         Intent myIntent = new Intent(this, ControlActivity.class);
         startActivity(myIntent);
+        finish();
     }
 
+    @Override
+    public void onBackPressed() {
 
+        if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
+            super.onBackPressed();
+
+        } else {
+            finish();
+        }
+    }
 }

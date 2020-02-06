@@ -40,7 +40,8 @@ public class HomeFragment extends Fragment implements ListView.OnItemClickListen
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     public static final String KEY_USER = "user";
-    private static final String ARG_PARAM2 = "param2";
+    public static final int KEY_LIMIT = 3;
+
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -51,6 +52,7 @@ public class HomeFragment extends Fragment implements ListView.OnItemClickListen
     User mUser;
     private Context mContext;
     private ArrayList<User> items;
+
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -86,9 +88,7 @@ public class HomeFragment extends Fragment implements ListView.OnItemClickListen
         View parentView = inflater.inflate(R.layout.fragment_home, container, false);
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        mRef = database.getReference(MyConstants.FB_KEY_CF);
-
-
+        mRef = database.getReference(MyConstants.FB_ALL_USERS);
 
 
         Button btnPrograming = parentView.findViewById(R.id.btn_Programing);
@@ -141,7 +141,7 @@ public class HomeFragment extends Fragment implements ListView.OnItemClickListen
 
     public void readCompaniesFromFirebase() {
 
-        Query query = FirebaseDatabase.getInstance().getReference(MyConstants.FB_KEY_CF).orderByChild("averageRating").limitToFirst(3);
+        Query query = FirebaseDatabase.getInstance().getReference(MyConstants.FB_ALL_USERS).orderByChild("averageRating");
 
         // Read from the database
         query.addValueEventListener(new ValueEventListener() {
@@ -152,21 +152,21 @@ public class HomeFragment extends Fragment implements ListView.OnItemClickListen
 
                 items = new ArrayList<>();
                 items.clear();
+                int i = 1;
                 for (DataSnapshot d : dataSnapshot.getChildren()) {
                     User value = d.getValue(User.class);
 
-
-                    //////////////////////
-
-
-                    ///////////////////
-                    //  if (value.getRole().equalsIgnoreCase("Company")) {
-                    items.add(value);
-                    //}
-                    // }
-                    Collections.reverse(items);
-                    mAdapter.updateFreelancerCompaniesArrayList(items);
-
+                    if (i >= KEY_LIMIT) {
+                        break;
+                    } else {
+                        if (!value.getRole().equalsIgnoreCase(MyConstants.FB_KEY_USERS)) {
+                            items.add(value);
+                            i++;
+                        }
+                        // }
+                        Collections.reverse(items);
+                        mAdapter.updateFreelancerCompaniesArrayList(items);
+                    }
                 }
             }
 
@@ -177,7 +177,6 @@ public class HomeFragment extends Fragment implements ListView.OnItemClickListen
             }
         });
     }
-
 
 
     // TODO: Rename method, update argument and hook method into UI event
