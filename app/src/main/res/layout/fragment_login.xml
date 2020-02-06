@@ -6,21 +6,31 @@
     android:layout_height="match_parent"
     tools:context=".Fragments.LoginFragment">
 
+
+    <View
+        android:id="@+id/scrollView"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:background="@color/colorView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <EditText
         android:id="@+id/et_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
-        android:layout_marginTop="192dp"
+        android:layout_marginTop="80dp"
         android:layout_marginEnd="50dp"
         android:ems="10"
         android:hint="Email"
         android:inputType="textEmailAddress"
         android:text="safaalshuaili1@gmail.com"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/scrollView" />
 
     <EditText
         android:id="@+id/et_pass"

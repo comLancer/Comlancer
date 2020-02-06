@@ -11,6 +11,8 @@
     <color name="colorText">#FFFFFF</color>
     <color name="colorBorder">#F0D98F</color>
     <color name="colorIcon">#658596</color>
+    <color name="colorfont">#658596</color>
+
 
     colorPrimary
 </resources>
