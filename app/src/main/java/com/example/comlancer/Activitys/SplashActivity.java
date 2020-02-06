@@ -17,7 +17,7 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
         ImageView ivLogo = findViewById(R.id.iv_logo);
 
-        Glide.with(SplashActivity.this).load(R.drawable.logo).into(ivLogo);
+        Glide.with(SplashActivity.this).load(R.drawable.ic_launcher_background).into(ivLogo);
 
 
         splash();

@@ -2,84 +2,111 @@
 
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
 
+    <TextView
+
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="84dp"
+        android:layout_marginTop="41dp"
+        android:layout_marginBottom="16dp"
+        android:fontFamily="@font/alef_bold"
+        android:text="REGIST"
+        android:textColor="@color/colorOurTitle"
+        android:textSize="40sp"
+        app:layout_constraintBottom_toTopOf="@+id/et_full_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <Button
         android:id="@+id/btn_register"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="24dp"
-        android:text="Register"
-        app:layout_constraintBottom_toTopOf="@+id/btn_back"
-        app:layout_constraintEnd_toEndOf="@+id/et_pass"
-        app:layout_constraintHorizontal_bias="1.0"
+        android:layout_width="wrap_content"
+        android:layout_height="42dp"
+        android:layout_marginEnd="32dp"
         android:background="@drawable/roundbutton"
-        app:layout_constraintStart_toStartOf="@+id/et_pass" />
+        android:text="Register"
+        android:textColor="@color/colorfont"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_back"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/btn_back" />
 
     <Button
         android:id="@+id/btn_back"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="244dp"
-        android:text="back To login"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/btn_register"
-        app:layout_constraintHorizontal_bias="1.0"
+        android:layout_width="118dp"
+        android:layout_height="39dp"
+        android:layout_marginStart="45dp"
+        android:layout_marginEnd="65dp"
+        android:layout_marginBottom="141dp"
         android:background="@drawable/roundbutton"
-        app:layout_constraintStart_toStartOf="@+id/btn_register" />
+        android:text="back To login"
+
+        android:textColor="@color/colorfont"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btn_register"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/et_rePass"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
+        android:layout_width="258dp"
+        android:layout_height="41dp"
+        android:layout_marginBottom="208dp"
+        android:background="@drawable/view"
         android:ems="10"
+
         android:text="safa7070"
         android:inputType="textPassword"
-        app:layout_constraintBottom_toTopOf="@+id/btn_register"
+        android:textColor="@color/colorfont"
+        app:layout_constraintBottom_toTopOf="@+id/btn_back"
         app:layout_constraintEnd_toEndOf="@+id/et_pass"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/et_pass" />
 
     <EditText
         android:id="@+id/et_full_name"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
-        android:ems="10"
+        android:layout_width="259dp"
+        android:layout_height="39dp"
+        android:layout_marginStart="69dp"
+        android:layout_marginEnd="83dp"
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/view"
         android:text="safa"
+        android:ems="10"
         android:inputType="textPersonName"
+        android:textColor="@color/colorfont"
         app:layout_constraintBottom_toTopOf="@+id/et_title"
-        app:layout_constraintEnd_toEndOf="@+id/et_title"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/et_title" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/et_title"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="4dp"
+        android:layout_height="45dp"
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/view"
+
         android:ems="10"
-        android:text="safaalshuaili1@gmail.com"
         android:inputType="textEmailAddress"
+        android:text="safaalshuaili1@gmail.com"
+        android:textColor="@color/colorfont"
         app:layout_constraintBottom_toTopOf="@+id/et_pass"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toEndOf="@+id/et_full_name"
+        app:layout_constraintStart_toStartOf="@+id/et_full_name" />
 
     <EditText
         android:id="@+id/et_pass"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:text="safa7070"
+        android:layout_height="41dp"
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/view"
         android:inputType="textPassword"
+        android:ems="10"
+        android:textColor="@color/colorfont"
+        android:text="safa7070"
         app:layout_constraintBottom_toTopOf="@+id/et_rePass"
         app:layout_constraintEnd_toEndOf="@+id/et_title"
         app:layout_constraintHorizontal_bias="0.0"
@@ -87,24 +114,25 @@
 
     <RadioGroup
         android:id="@+id/radioGroup"
-        android:layout_width="151dp"
+        android:layout_width="146dp"
 
-        android:layout_height="112dp"
-        android:layout_marginTop="24dp"
+        android:layout_height="96dp"
         android:weightSum="1"
+        app:layout_constraintBottom_toTopOf="@+id/btn_register"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.107"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_back">
+        app:layout_constraintTop_toBottomOf="@+id/et_rePass">
 
         <RadioButton
             android:id="@+id/radio_freelancer"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
             android:checked="false"
             android:text="Freelancer"
-            android:textSize="25dp" />
+            android:textSize="15dp"
+            tools:layout_editor_absoluteX="111dp"
+            tools:layout_editor_absoluteY="378dp" />
 
         <RadioButton
             android:id="@+id/radio_company"
@@ -114,17 +142,20 @@
             android:layout_weight="0.13"
             android:checked="false"
             android:text="Company"
-            android:textSize="25dp" />
+            android:textSize="15dp"
+            tools:layout_editor_absoluteX="104dp"
+            tools:layout_editor_absoluteY="421dp" />
 
         <RadioButton
             android:id="@+id/radio_users"
             android:layout_width="match_parent"
-            android:layout_height="46dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="left"
             android:layout_weight="0.13"
             android:checked="true"
             android:text="User"
-            android:textSize="25dp" />
+            android:textSize="15dp"
+            tools:layout_editor_absoluteX="119dp"
+            tools:layout_editor_absoluteY="440dp" />
     </RadioGroup>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
