@@ -114,7 +114,7 @@ public class PersonalProfileFragment extends Fragment implements MyRecyclerViewA
         mAdapterRecycle = new MyRecyclerViewAdapter(mContext);
         tvTag = parentView.findViewById(R.id.tv_tag);
         imgbtnEditProfile = parentView.findViewById(R.id.imgbtn_edit_profile);
-        imgbtnAddImg = parentView.findViewById(R.id.imgbtn_addImage);
+        imgbtnAddImg = parentView.findViewById(R.id.ib_add);
         ImageButton imgbtnLogout = parentView.findViewById(R.id.imgbtn_logout);
         lvFeedback = parentView.findViewById(R.id.lv_list_feedback);
         mAdapterRating = new RatingFeedAdapter(mContext);
@@ -217,7 +217,7 @@ public class PersonalProfileFragment extends Fragment implements MyRecyclerViewA
         imgbtnAddImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                //     Toast.makeText(mContext, "hala", Toast.LENGTH_SHORT).show();
                 mDialogAddImage = AddImageDialogFragment.newInstance(mUser);
                 mDialogAddImage.show(getChildFragmentManager(), AddImageDialogFragment.class.getSimpleName());
 
