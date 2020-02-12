@@ -89,14 +89,14 @@ public class CompaniesFragment extends Fragment implements ListView.OnItemClickL
 
                 for (DataSnapshot d : dataSnapshot.getChildren()) {
                     User value = d.getValue(User.class);
-                    if (value.getRole().equalsIgnoreCase("Company")) {
-                        //     if ( mAuth.getCurrentUser()!= dataSnapshot.getValue(mUser.getFirebaseUserId())) {
+                    if (value.getRole().equalsIgnoreCase("Company") && !mAuth.getCurrentUser().getUid().equals(value.getFirebaseUserId())) {
+
                         items.add(value);
                     }
-                }
+
                 mAdapter.updateFreelancerCompaniesArrayList(items);
 
-                //  }
+                }
             }
 
             @Override

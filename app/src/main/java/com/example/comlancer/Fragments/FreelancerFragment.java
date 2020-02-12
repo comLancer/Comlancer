@@ -17,6 +17,7 @@ import com.example.comlancer.Models.MyConstants;
 import com.example.comlancer.Models.SearchListener;
 import com.example.comlancer.Models.User;
 import com.example.comlancer.R;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -36,6 +37,7 @@ public class FreelancerFragment extends Fragment implements ListView.OnItemClick
     private FreelancerListenerInerface mListener;
 
     UserAdapter mAdapter;
+    FirebaseAuth mAuth;
     private Context mContext;
     DatabaseReference mRef;
     private static final String TAG = "freelancer-fragment";
@@ -65,7 +67,7 @@ public class FreelancerFragment extends Fragment implements ListView.OnItemClick
         mRef = database.getReference(MyConstants.FB_ALL_USERS);
 
         ListView listView = parentView.findViewById(R.id.list_view);
-
+        mAuth = FirebaseAuth.getInstance();
 
         mAdapter = new UserAdapter(mContext);
         readFreelancerFromFirebase();
@@ -87,7 +89,7 @@ public class FreelancerFragment extends Fragment implements ListView.OnItemClick
                 items.clear();
                 for (DataSnapshot d : dataSnapshot.getChildren()) {
                     User value = d.getValue(User.class);
-                    if (value.getRole().equalsIgnoreCase("Freelancer")) {
+                    if (value.getRole().equalsIgnoreCase("Freelancer") && !mAuth.getCurrentUser().getUid().equals(value.getFirebaseUserId())) {
                         items.add(value);
                     }
 

@@ -19,8 +19,8 @@
 
     <com.mikhaellopez.circularimageview.CircularImageView
         android:id="@+id/iv_img_profile"
-        android:layout_width="152dp"
-        android:layout_height="151dp"
+        android:layout_width="144dp"
+        android:layout_height="135dp"
 
 
         android:layout_marginStart="115dp"
@@ -40,52 +40,43 @@
 
     <ImageButton
         android:id="@+id/ib_add"
-        android:layout_width="64dp"
-        android:layout_height="0dp"
+        android:layout_width="61dp"
+        android:layout_height="33dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="4dp"
         android:background="@drawable/roundbutton"
         android:src="@drawable/ic_add_a_photo"
         app:layout_constraintBottom_toBottomOf="@+id/tv_info"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_tag"
-        app:layout_constraintVertical_bias="0.111" />
+        app:layout_constraintEnd_toEndOf="parent" />
+
 
     <RatingBar
         android:id="@+id/ratingBar"
-        style="@style/Widget.AppCompat.RatingBar.Indicator"
-        android:layout_width="181dp"
-        android:layout_height="44dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="225dp"
+        style="@style/Widget.AppCompat.RatingBar.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:isIndicator="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_name" />
+        app:layout_constraintEnd_toEndOf="@+id/iv_img_profile"
+        app:layout_constraintStart_toStartOf="@+id/iv_img_profile"
+        app:layout_constraintTop_toBottomOf="@+id/iv_img_profile" />
 
     <TextView
         android:id="@+id/tv_name"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="114dp"
+        android:layout_height="21dp"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="9dp"
-        android:layout_marginEnd="211dp"
         android:ems="10"
         android:fontFamily="Tw Cen MT Condensed Extra Bold"
         android:hint="Name"
         android:inputType="textPersonName"
         android:textColor="@color/colorfont"
-        app:layout_constraintBottom_toTopOf="@+id/ratingBar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iv_img_profile" />
-
+        app:layout_constraintTop_toTopOf="@+id/ratingBar" />
 
     <TextView
         android:id="@+id/tv_info"
         android:layout_width="0dp"
         android:layout_height="51dp"
-        android:layout_marginEnd="8dp"
 
         android:ems="10"
         android:gravity="start|top"
@@ -94,35 +85,33 @@
         android:scrollbars="vertical"
         android:textColor="@color/colorfont"
         app:layout_constraintEnd_toStartOf="@+id/ib_add"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/tv_tag"
-        app:layout_constraintTop_toBottomOf="@+id/tv_tag" />
+        app:layout_constraintStart_toEndOf="@+id/tv_tag"
+        app:layout_constraintTop_toBottomOf="@+id/tv_name" />
 
     <ImageButton
         android:id="@+id/imgbtn_edit_profile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="6dp"
-        android:layout_marginTop="13dp"
         android:background="#FFFFFF"
         android:src="@drawable/ic_edit"
+        app:layout_constraintBottom_toBottomOf="@+id/scrollView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/scrollView"
-        app:layout_constraintTop_toBottomOf="@+id/imgbtn_logout" />
+        app:layout_constraintHorizontal_bias="0.304"
+        app:layout_constraintStart_toEndOf="@+id/scrollView" />
 
     <TextView
         android:id="@+id/tv_tag"
-        android:layout_width="0dp"
-        android:layout_height="43dp"
+        android:layout_width="57dp"
+        android:layout_height="31dp"
         android:layout_marginStart="24dp"
-        android:fontFamily="Forte"
 
+        android:fontFamily="Forte"
         android:hint="tag"
         android:textColor="@color/colorfont"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintEnd_toStartOf="@+id/tv_info"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ratingBar" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_name" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
@@ -146,17 +135,25 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/recycler_view" />
 
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="17dp"
+        android:text="LOGOUT"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toEndOf="@+id/imgbtn_logout"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/imgbtn_logout"
+        app:layout_constraintTop_toBottomOf="@+id/imgbtn_logout" />
+
     <ImageButton
         android:id="@+id/imgbtn_logout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginBottom="13dp"
+        android:layout_width="29dp"
+        android:layout_height="28dp"
+        android:layout_marginTop="8dp"
         android:background="#FFFFFF"
         android:src="@drawable/ic_logout"
-        app:layout_constraintBottom_toTopOf="@+id/imgbtn_edit_profile"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/scrollView"
         app:layout_constraintTop_toTopOf="parent" />
 
