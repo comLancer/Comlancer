@@ -10,12 +10,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
 import com.example.comlancer.Activitys.LoginRegistrationActivity;
 import com.example.comlancer.DialogFragments.ForgotPasswordDialogFragment;
 import com.example.comlancer.Models.User;
@@ -63,6 +65,7 @@ public class LoginFragment extends Fragment {
 
 
         View perantView = inflater.inflate(R.layout.fragment_login, container, false);
+        final ImageView ivLogo = perantView.findViewById(R.id.imageView7);
         final EditText etEmail = perantView.findViewById(R.id.et_title);
         final EditText etpass = perantView.findViewById(R.id.et_pass);
         final TextView tvForgetPassword = perantView.findViewById(R.id.tv_forget_pass);
@@ -95,6 +98,8 @@ public class LoginFragment extends Fragment {
             }
         });
 
+
+        Glide.with(mcontext).load(R.drawable.logo2).into(ivLogo);
 
         return perantView;
     }

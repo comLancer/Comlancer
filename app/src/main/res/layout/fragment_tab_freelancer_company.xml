@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#368B9DA7"
+    android:background="#36FFFFFF"
     tools:context=".Fragments.TabFreelancerCompanyFragment">
 
 
@@ -13,25 +13,39 @@
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:ems="10"
+        android:background="#658596"
+        android:textColor="#FFFFFF"
         android:hint="@android:string/search_go"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toTopOf="@+id/tabLayout"
-        app:layout_constraintEnd_toStartOf="@+id/imbtn_search"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintEnd_toStartOf="@+id/imageView8"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView8"
+        android:layout_width="62dp"
+        android:layout_height="56dp"
+        android:background="@color/colorIcon"
+        android:src="@drawable/ic_search"
+        app:layout_constraintBottom_toTopOf="@+id/tabLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/et_search2"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
     <com.google.android.material.tabs.TabLayout
 
         android:id="@+id/tabLayout"
         android:layout_width="0dp"
-
+        android:background="#658596"
+        app:tabIndicatorColor="#D3FFFFFF"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_search2"
-        app:tabIndicatorColor="#FFFFFF">
+        app:tabTextColor="#FFFF">
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
@@ -52,20 +66,15 @@
         android:id="@+id/viewpager"
         android:layout_width="0dp"
         android:layout_height="0dp"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tabLayout"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="1.0">
 
-    <ImageButton
-        android:id="@+id/imbtn_search"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_search"
-        app:layout_constraintBottom_toTopOf="@+id/tabLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/et_search2"
-        app:layout_constraintTop_toTopOf="parent" />
+    </androidx.viewpager.widget.ViewPager>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

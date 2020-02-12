@@ -1,4 +1,4 @@
-package com.example.comlancer;
+package com.example.comlancer.Models;
 
 import java.io.Serializable;
 

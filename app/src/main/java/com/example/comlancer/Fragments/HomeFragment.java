@@ -7,13 +7,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 
 import androidx.fragment.app.Fragment;
 
 import com.example.comlancer.Adapter.UserAdapter;
 import com.example.comlancer.Models.MyConstants;
+import com.example.comlancer.Models.RatingCompare;
 import com.example.comlancer.Models.User;
 import com.example.comlancer.R;
 import com.google.firebase.database.DataSnapshot;
@@ -25,6 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 
 import static androidx.constraintlayout.widget.Constraints.TAG;
 
@@ -91,7 +93,7 @@ public class HomeFragment extends Fragment implements ListView.OnItemClickListen
         mRef = database.getReference(MyConstants.FB_ALL_USERS);
 
 
-        Button btnPrograming = parentView.findViewById(R.id.btn_Programing);
+        ImageButton btnPrograming = parentView.findViewById(R.id.btn_Programing);
         btnPrograming.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,7 +101,7 @@ public class HomeFragment extends Fragment implements ListView.OnItemClickListen
             }
         });
 
-        Button btnArt = parentView.findViewById(R.id.btn_art);
+        ImageButton btnArt = parentView.findViewById(R.id.btn_art);
         btnArt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -107,7 +109,7 @@ public class HomeFragment extends Fragment implements ListView.OnItemClickListen
             }
         });
 
-        Button btnPhotography = parentView.findViewById(R.id.btn_Photography);
+        ImageButton btnPhotography = parentView.findViewById(R.id.btn_Photography);
         btnPhotography.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -115,7 +117,7 @@ public class HomeFragment extends Fragment implements ListView.OnItemClickListen
             }
         });
 
-        Button btnDesign = parentView.findViewById(R.id.btn_design);
+        ImageButton btnDesign = parentView.findViewById(R.id.btn_design);
         btnDesign.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -141,7 +143,7 @@ public class HomeFragment extends Fragment implements ListView.OnItemClickListen
 
     public void readCompaniesFromFirebase() {
 
-        Query query = FirebaseDatabase.getInstance().getReference(MyConstants.FB_ALL_USERS).orderByChild("averageRating");
+        Query query = FirebaseDatabase.getInstance().getReference(MyConstants.FB_ALL_USERS).orderByChild("averageRating").limitToLast(3);
 
         // Read from the database
         query.addValueEventListener(new ValueEventListener() {
@@ -156,15 +158,21 @@ public class HomeFragment extends Fragment implements ListView.OnItemClickListen
                 for (DataSnapshot d : dataSnapshot.getChildren()) {
                     User value = d.getValue(User.class);
 
-                    if (i >= KEY_LIMIT) {
+               /*     if (i >= KEY_LIMIT) {
                         break;
-                    } else {
+                    } else*/
+                    {
                         if (!value.getRole().equalsIgnoreCase(MyConstants.FB_KEY_USERS)) {
+                            Log.d("value", value.getRole() + "|" + MyConstants.FB_KEY_USERS + "..." + (!value.getRole().equalsIgnoreCase(MyConstants.FB_KEY_USERS)));
+
                             items.add(value);
                             i++;
                         }
                         // }
-                        Collections.reverse(items);
+
+                        Comparator c = Collections.reverseOrder(new RatingCompare());
+                        Collections.sort(items, c);
+
                         mAdapter.updateFreelancerCompaniesArrayList(items);
                     }
                 }

@@ -9,13 +9,13 @@
     app:cardCornerRadius="12dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="399dp"
-        android:layout_height="230dp">
+        android:layout_width="match_parent"
+        android:layout_height="150dp">
 
         <ImageView
             android:id="@+id/iv_icon"
-            android:layout_width="118dp"
-            android:layout_height="110dp"
+            android:layout_width="162dp"
+            android:layout_height="140dp"
             android:backgroundTint="#fff"
             app:layout_constraintBottom_toTopOf="@+id/tv_title"
             app:layout_constraintEnd_toEndOf="parent"
@@ -27,19 +27,17 @@
 
         <TextView
             android:id="@+id/tv_title"
-            android:layout_width="378dp"
-            android:layout_height="33dp"
-            android:layout_marginStart="4dp"
-            android:layout_marginEnd="4dp"
+            android:layout_width="174dp"
+            android:layout_height="25dp"
             android:layout_marginBottom="16dp"
+            android:background="@drawable/round_list"
             android:text="title"
-            android:background="@color/colorBorder"
             android:textAlignment="center"
             android:textColor="@color/colorfont"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.076"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_icon" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

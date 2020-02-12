@@ -15,8 +15,8 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.comlancer.ChatRecyclerViewAdapter;
-import com.example.comlancer.Message;
+import com.example.comlancer.Adapter.ChatRecyclerViewAdapter;
+import com.example.comlancer.Models.Message;
 import com.example.comlancer.R;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -30,7 +30,7 @@ public class ChatFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    private static final String MESSAGE_SENDER = "Sam";
+    private static final String MESSAGE_SENDER = "safa";
     private ArrayList<Message> mMessages;
     private ChatRecyclerViewAdapter mAdapter;
     private RecyclerView recyclerView;
@@ -165,12 +165,13 @@ public class ChatFragment extends Fragment {
 
         mMessages.add(new Message(MESSAGE_SENDER, "Hi!", false));
         mMessages.add(new Message(MESSAGE_SENDER, "Hello!", true));
-        mMessages.add(new Message(MESSAGE_SENDER, "how are you!", false));
-        mMessages.add(new Message(MESSAGE_SENDER, "are you doing well!", false));
-        mMessages.add(new Message(MESSAGE_SENDER, "are you doing well!are you doing well!are you doing well!are you doing well!are you doing well!", false));
-        mMessages.add(new Message(MESSAGE_SENDER, "What is that huh!", true));
-        mMessages.add(new Message(MESSAGE_SENDER, "man you having a bad day ?!", true));
+        mMessages.add(new Message(MESSAGE_SENDER, "I want to request for develop app!", false));
+        mMessages.add(new Message(MESSAGE_SENDER, "which kind of app u want?", true));
+        mMessages.add(new Message(MESSAGE_SENDER, "Game!!, and i will send details  ", false));
+        mMessages.add(new Message(MESSAGE_SENDER, "okey, I am glad to do for u..", true));
+        mMessages.add(new Message(MESSAGE_SENDER, "man you having a bad day ?!", false));
 
+/*
 
         mMessages.add(new Message(MESSAGE_SENDER, "2Hi!", false));
         mMessages.add(new Message(MESSAGE_SENDER, "2Hello!", true));
@@ -187,6 +188,7 @@ public class ChatFragment extends Fragment {
         mMessages.add(new Message(MESSAGE_SENDER, "3are you doing well!are you doing well!are you doing well!are you doing well!are you doing well!", false));
         mMessages.add(new Message(MESSAGE_SENDER, "3What is that huh!", true));
         mMessages.add(new Message(MESSAGE_SENDER, "3man you having a bad day ?!", true));
+*/
 
 
         return mMessages;

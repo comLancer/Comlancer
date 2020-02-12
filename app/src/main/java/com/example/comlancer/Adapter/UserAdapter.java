@@ -67,8 +67,6 @@ public class UserAdapter extends BaseAdapter {
         Glide.with(mContext).load(u.getImageUrl()).placeholder(R.drawable.ic_profile).into(ivImg);
 
 
-
-
         return itemView;
     }
 }

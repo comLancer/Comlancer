@@ -17,6 +17,7 @@ import com.example.comlancer.Models.MyConstants;
 import com.example.comlancer.Models.SearchListener;
 import com.example.comlancer.Models.User;
 import com.example.comlancer.R;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -34,13 +35,13 @@ import static com.example.comlancer.Models.MyConstants.KEY_ALL_ITEMS;
 public class CompaniesFragment extends Fragment implements ListView.OnItemClickListener, SearchListener {
 
     private ComapaniesListenerInerface mListener;
-
+    FirebaseAuth mAuth;
     UserAdapter mAdapter;
     private Context mContext;
     DatabaseReference mRef;
     private static final String TAG = "company-fragment";
     private ArrayList<User> items;
-
+    User mUser;
 
     public CompaniesFragment() {
         // Required empty public constructor
@@ -62,6 +63,7 @@ public class CompaniesFragment extends Fragment implements ListView.OnItemClickL
         mRef = database.getReference(MyConstants.FB_ALL_USERS);
 
         ListView listView = parentView.findViewById(R.id.list_view);
+        mAuth = FirebaseAuth.getInstance();
 
 
         mAdapter = new UserAdapter(mContext);
@@ -83,16 +85,19 @@ public class CompaniesFragment extends Fragment implements ListView.OnItemClickL
 
                 items = new ArrayList<>();
                 items.clear();
+
+
                 for (DataSnapshot d : dataSnapshot.getChildren()) {
                     User value = d.getValue(User.class);
                     if (value.getRole().equalsIgnoreCase("Company")) {
+                        //     if ( mAuth.getCurrentUser()!= dataSnapshot.getValue(mUser.getFirebaseUserId())) {
                         items.add(value);
                     }
                 }
                 mAdapter.updateFreelancerCompaniesArrayList(items);
 
+                //  }
             }
-
 
             @Override
             public void onCancelled(DatabaseError error) {
@@ -158,8 +163,8 @@ public class CompaniesFragment extends Fragment implements ListView.OnItemClickL
 
         for (User u : items) {
             boolean isName = u.getName().toLowerCase().contains(searchKey.toLowerCase());
-            boolean isTag = u.getTag().toLowerCase().contains(searchKey.toLowerCase());
-            if (isName || isTag) {
+//            boolean isTag = u.getTag().toLowerCase().contains(searchKey.toLowerCase());
+            if (isName) {
                 temp.add(u);
             }
         }

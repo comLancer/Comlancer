@@ -11,6 +11,7 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -124,22 +125,31 @@ public class OthersProfileFragment extends Fragment implements MyRecyclerViewAda
         readUsersFromFirebase();
         lvFeedback.setAdapter(mAdapterRating);
 
+
         if (mUser.getImagesContainer() != null) {
             mAdapterRecycle.updateList(mUser.getImagesContainer().getImageList());
         }
 
 
-        fabAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-              /*  openLoginFragment();
-                openDialogFeedback();*/
-                mDialogFeedback = AddFeedbackDialogFragment.newInstance(mUser);
-                mDialogFeedback.show(getChildFragmentManager(), AddFeedbackDialogFragment.class.getSimpleName());
+        if (mAuth.getCurrentUser() == null) {
 
+            fabAdd.hide();
+
+        }
+
+        if (mAuth.getCurrentUser() != null) {
+
+            fabAdd.show();
+            ForAddFeedback(fabAdd);
+        }
+
+
+        btnChat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(mContext, "chat not available..", Toast.LENGTH_SHORT).show();
             }
         });
-
 
         imgbtnLiner.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -160,6 +170,21 @@ public class OthersProfileFragment extends Fragment implements MyRecyclerViewAda
         readUsersFromFirebase();
 
         return parentView;
+    }
+
+    private void ForAddFeedback(FloatingActionButton fabAdd) {
+        fabAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+              /*  openLoginFragment();
+                openDialogFeedback();*/
+                mDialogFeedback = AddFeedbackDialogFragment.newInstance(mUser);
+                mDialogFeedback.show(getChildFragmentManager(), AddFeedbackDialogFragment.class.getSimpleName());
+
+            }
+        });
     }
 
 

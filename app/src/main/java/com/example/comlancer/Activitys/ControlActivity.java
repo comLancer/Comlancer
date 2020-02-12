@@ -66,9 +66,9 @@ public class ControlActivity extends AppCompatActivity implements PersonalProfil
 
                             break;
 
-                        case R.id.item_nav_chat:
+                    /*    case R.id.item_nav_chat:
                             changeFragmentTo(new ChatFragment(), ChatFragment.class.getSimpleName());
-                            break;
+                            break;*/
                     }
 
 
@@ -102,26 +102,32 @@ public class ControlActivity extends AppCompatActivity implements PersonalProfil
             final FirebaseUser currentUser = mAuth.getCurrentUser();
             final FirebaseDatabase database = FirebaseDatabase.getInstance();
 
-            DatabaseReference myRef = database.getReference(FB_ALL_USERS).child(currentUser.getUid());
+            if (currentUser != null && currentUser.getUid() != null) {
 
-            myRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    // This method is called once with the initial value and again
-                    // whenever data at this location is updated.
-                    User value = dataSnapshot.getValue(User.class);
+                DatabaseReference myRef = database.getReference(FB_ALL_USERS).child(currentUser.getUid());
 
-                    changeFragmentTo(PersonalProfileFragment.newInstance(value), PersonalProfileFragment.class.getSimpleName());
+                myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        // This method is called once with the initial value and again
+                        // whenever data at this location is updated.
+                        User value = dataSnapshot.getValue(User.class);
 
-                }
+                        changeFragmentTo(PersonalProfileFragment.newInstance(value), PersonalProfileFragment.class.getSimpleName());
 
-                @Override
-                public void onCancelled(DatabaseError error) {
-                    // Failed to read value
-                    Log.w(TAG, "Failed to read value.", error.toException());
-                }
-            });
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError error) {
+                        // Failed to read value
+                        Log.w(TAG, "Failed to read value.", error.toException());
+                    }
+                });
+            } else {
+                moveToLoginRegisterActivity();
+            }
         }
+
     }
 
     private void moveToLoginRegisterActivity() {
@@ -313,8 +319,6 @@ public class ControlActivity extends AppCompatActivity implements PersonalProfil
 
             if (fragment instanceof HomeFragment) {
                 bottomNav.setSelectedItemId(R.id.item_nav_home);
-            } else if (fragment instanceof ChatFragment) {
-                bottomNav.setSelectedItemId(R.id.item_nav_chat);
             } else if (fragment instanceof TabFreelancerCompanyFragment) {
                 bottomNav.setSelectedItemId(R.id.item_nav_search);
             } else if (fragment instanceof PersonalProfileFragment) {

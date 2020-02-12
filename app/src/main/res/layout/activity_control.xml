@@ -13,16 +13,22 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/bottomNavigation"
-        android:layout_marginBottom="0dp" />
+        android:layout_marginBottom="0dp"
+        android:background="#FFFFFF">
+
+
+    </FrameLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigation"
+        style="@style/bottomNavigation"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="@color/colorMenu"
-        app:menu="@menu/novgation"
-
-        />
+        app:itemIconTint="@color/bnv_button"
+        app:itemTextColor="@color/bnv_button"
+        app:menu="@menu/novgation" />
 
 </RelativeLayout>

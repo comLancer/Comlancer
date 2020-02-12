@@ -11,12 +11,14 @@
         android:theme="@style/AppTheme">
         <activity android:name=".Activitys.ControlActivity">
 
+
         </activity>
 
         <activity android:name=".Activitys.LoginRegistrationActivity">
 
         </activity>
         <activity android:name=".Activitys.SplashActivity">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

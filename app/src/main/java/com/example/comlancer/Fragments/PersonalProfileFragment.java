@@ -203,7 +203,7 @@ public class PersonalProfileFragment extends Fragment implements MyRecyclerViewA
         tvInfo.setText(mUser.getInfo());
         tvTag.setText(mUser.getTag());
 
-        Glide.with(mContext).load(mUser.getImageUrl()).placeholder(R.mipmap.ic_launcher_round).into(ivProfile);
+        Glide.with(mContext).load(mUser.getImageUrl()).placeholder(R.drawable.ic_profile).into(ivProfile);
 
 
         mRatingBar.setRating(mUser.getAverageRating());

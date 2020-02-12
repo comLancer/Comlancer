@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.ImageButton;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -66,7 +65,6 @@ public class TabFreelancerCompanyFragment extends Fragment implements CompaniesF
         View parentView = inflater.inflate(R.layout.fragment_tab_freelancer_company, container, false);
 
 
-        ImageButton imagbtn_search = parentView.findViewById(R.id.imbtn_search);
         final EditText et_search = parentView.findViewById(R.id.et_search2);
 
         TabsPagerAdapter tabsPagerAdapter = new TabsPagerAdapter(TabFreelancerCompanyFragment.this, mContext, getChildFragmentManager());

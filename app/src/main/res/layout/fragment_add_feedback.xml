@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:background="#408B9DA7"
+    android:background="#40FFFFFF"
     android:layout_height="wrap_content">
 
 
@@ -17,25 +17,27 @@
 
     <Button
         android:id="@+id/btn_submit"
-        android:layout_width="96dp"
+        android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/roundbutton"
         android:text="Submit"
+        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_feedback" />
 
     <Button
         android:id="@+id/btn_cancel"
-        android:layout_width="96dp"
+        android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:layout_marginStart="24dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/roundbutton"
         android:text="Cancel"
+        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="@+id/btn_submit"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/btn_submit"
@@ -48,6 +50,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:isIndicator="false"
+        android:textColor="#FFEB3B"
         app:layout_constraintEnd_toEndOf="@+id/textView"
         app:layout_constraintStart_toStartOf="@+id/textView"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
@@ -56,7 +59,7 @@
         android:id="@+id/et_name_feedback"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-
+        android:textColor="#000000"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
         android:ems="10"
@@ -72,6 +75,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:ems="10"
+        android:textColor="#000000"
         android:gravity="start|top"
         android:hint="Your Feedback"
         android:inputType="textMultiLine"

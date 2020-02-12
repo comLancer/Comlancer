@@ -4,8 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="#378B9DA7"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/background">
 
 
     <TextView
@@ -31,7 +31,7 @@
         android:layout_marginEnd="32dp"
         android:background="@drawable/roundbutton"
         android:text="Register"
-        android:textColor="@color/colorfont"
+        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="@+id/btn_back"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/btn_back" />
@@ -46,7 +46,7 @@
         android:background="@drawable/roundbutton"
         android:text="back To login"
 
-        android:textColor="@color/colorfont"
+        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btn_register"
         app:layout_constraintStart_toStartOf="parent" />
@@ -56,7 +56,7 @@
         android:layout_width="258dp"
         android:layout_height="41dp"
         android:layout_marginBottom="208dp"
-        android:background="@drawable/view"
+
         android:ems="10"
 
         android:text="safa7070"
@@ -74,7 +74,7 @@
         android:layout_marginStart="69dp"
         android:layout_marginEnd="83dp"
         android:layout_marginBottom="12dp"
-        android:background="@drawable/view"
+
         android:text="safa"
         android:ems="10"
         android:inputType="textPersonName"
@@ -88,7 +88,7 @@
         android:layout_width="0dp"
         android:layout_height="45dp"
         android:layout_marginBottom="12dp"
-        android:background="@drawable/view"
+
 
         android:ems="10"
         android:inputType="textEmailAddress"
@@ -103,7 +103,7 @@
         android:layout_width="0dp"
         android:layout_height="41dp"
         android:layout_marginBottom="12dp"
-        android:background="@drawable/view"
+
         android:inputType="textPassword"
         android:ems="10"
         android:textColor="@color/colorfont"

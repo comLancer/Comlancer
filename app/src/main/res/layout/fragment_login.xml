@@ -4,34 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#378B9DA7"
+    android:background="@drawable/background"
     tools:context=".Fragments.LoginFragment">
 
-
-    <TextView
-
-        android:id="@+id/textView2"
-        android:layout_width="170dp"
-        android:layout_height="84dp"
-        android:layout_marginStart="147dp"
-        android:layout_marginEnd="142dp"
-        android:fontFamily="@font/alef_bold"
-        android:text="LOGIN"
-        android:textColor="@color/colorOurTitle"
-        android:textSize="50sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.562"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView7" />
 
     <EditText
         android:id="@+id/et_title"
         android:layout_width="294dp"
         android:layout_height="41dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="8dp"
-        android:background="@drawable/view"
         android:ems="10"
         android:hint="Email"
         android:inputType="textEmailAddress"
@@ -40,7 +23,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.47"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView7" />
 
     <EditText
         android:id="@+id/et_pass"
@@ -48,9 +31,9 @@
         android:layout_height="41dp"
         android:layout_marginTop="16dp"
         android:ems="10"
-        android:background="@drawable/view"
 
-        android:textColor="#FFFF"
+
+        android:textColor="#000000"
         android:hint="password"
         android:inputType="textPassword"
         android:text="safa7070"
@@ -117,12 +100,11 @@
 
     <ImageView
         android:id="@+id/imageView7"
-        android:layout_width="230dp"
-        android:layout_height="144dp"
-
-        android:layout_marginTop="8dp"
-
+        android:layout_width="344dp"
+        android:layout_height="255dp"
+        android:layout_marginTop="32dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.46"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

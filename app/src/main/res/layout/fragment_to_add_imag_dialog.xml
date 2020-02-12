@@ -4,17 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#2A8B9DA7"
+    android:background="#2AFFFFFF"
     tools:context=".DialogFragments.AddImageDialogFragment">
 
     <ImageButton
         android:id="@+id/imgbtn_add_imge_recycle_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="59dp"
+        android:layout_height="51dp"
         android:layout_marginTop="32dp"
-        android:background="#00916565"
+        android:background="@drawable/roundbutton"
         android:maxWidth="100dp"
         android:maxHeight="100dp"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -28,8 +29,8 @@
         android:layout_marginTop="32dp"
         android:layout_marginEnd="117dp"
         android:ems="10"
+        android:hint="Title"
         android:inputType="textPersonName"
-        android:text="Title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imgbtn_add_imge_recycle_view" />
@@ -38,11 +39,12 @@
     <Button
         android:id="@+id/btn_add_img_to_recycle_view"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="8dp"
         android:text="Add"
+        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_title"
@@ -52,11 +54,12 @@
     <Button
         android:id="@+id/btn_cancel"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_marginStart="32dp"
-        android:text="Button"
+        android:background="@drawable/roundbutton"
+        android:text="cancel"
+        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="@+id/btn_add_img_to_recycle_view"
         app:layout_constraintStart_toStartOf="parent"
-        android:background="@drawable/roundbutton"
         app:layout_constraintTop_toTopOf="@+id/btn_add_img_to_recycle_view" />
 </androidx.constraintlayout.widget.ConstraintLayout>
